@@ -1,0 +1,53 @@
+name: PullDown
+options:
+  minimumXcodeGenVersion: 2.44.1
+  deploymentTarget:
+    macOS: "15.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "15.0"
+    GENERATE_INFOPLIST_FILE: YES
+    CODE_SIGN_STYLE: Automatic
+targets:
+  PullDown:
+    type: application
+    platform: macOS
+    sources:
+      - Sources/PullDown
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.j4ck.PullDown
+        PRODUCT_NAME: PullDown
+        INFOPLIST_KEY_CFBundleDisplayName: PullDown
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright © 2026"
+        ENABLE_APP_SANDBOX: NO
+        SWIFT_STRICT_CONCURRENCY: complete
+    scheme:
+      testTargets:
+        - PullDownTests
+        - PullDownUITests
+  PullDownTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/PullDownTests
+    dependencies:
+      - target: PullDown
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.j4ck.PullDownTests
+        SWIFT_STRICT_CONCURRENCY: complete
+  PullDownUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - UITests
+    dependencies:
+      - target: PullDown
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: xyz.j4ck.PullDownUITests
+        TEST_TARGET_NAME: PullDown
+        SWIFT_STRICT_CONCURRENCY: complete

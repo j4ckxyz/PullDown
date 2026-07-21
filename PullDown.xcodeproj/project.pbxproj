@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		019DB2F0AC7F695ECB488376 /* YTDLPOutputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9432C9FBD93C8DD1EC0537C /* YTDLPOutputParser.swift */; };
+		0BB66DE168438EE7225E413E /* ExecutableLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9260DE07304F96AEE499B5 /* ExecutableLocator.swift */; };
+		316BB42B233CE2C6A5C14FE5 /* YouTubeURLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452026030D393736D5322BF0 /* YouTubeURLParser.swift */; };
+		372CD2B8C3992D522DFBF565 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B309FB61AD4D560DC5448201 /* SettingsView.swift */; };
+		423409AFF9FBE355B1D286F9 /* YTDLPInstallerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9398ECCE9B8D1D9174997 /* YTDLPInstallerTests.swift */; };
+		6842D138047A6ABBAACB8804 /* YTDLPCommandBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F4FD6F8226296BD5BD957F /* YTDLPCommandBuilderTests.swift */; };
+		73295D1F3E9B41997494926B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90B9DD6294D31567CEB57F9 /* RootView.swift */; };
+		7622545B52403ED5F2B55C81 /* PullDownModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584E8682491E13C68441ECF4 /* PullDownModelTests.swift */; };
+		7858824FD8B878B4C3950A06 /* PullDownUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980159A329D17192F1AEB60D /* PullDownUITests.swift */; };
+		7A8885D49B2FFC8473B0C788 /* ExecutableLocatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166DFFF3935310B7CF296B04 /* ExecutableLocatorTests.swift */; };
+		81D303F0EE60C1C4614F43C1 /* ProcessRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F296DB1ADAC1E783C6BC23 /* ProcessRunner.swift */; };
+		8AA22E362AF94E89B580C0A0 /* YTDLPCommandBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183EF42C270380B04950365 /* YTDLPCommandBuilder.swift */; };
+		9C86AF2148D3574E67EF3298 /* YTDLPPlaylistParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B8ADBCB5FFCDEAE7C7C495 /* YTDLPPlaylistParserTests.swift */; };
+		A163979068210537B108ED92 /* YTDLPOutputParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28D224819D817C0A78EF815 /* YTDLPOutputParserTests.swift */; };
+		A17D10662D7A250B16736F99 /* PullDownModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3956079AD0D36F1E635A074D /* PullDownModel.swift */; };
+		A404ADECB650FC4D1B911427 /* MenuBarDownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C72FF3DC9199C39C7D886B /* MenuBarDownloadView.swift */; };
+		AE31F00EEDAC2B6445B73A3A /* YouTubeURLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F87BA657A964A8E765855 /* YouTubeURLParserTests.swift */; };
+		B3B0B4146B1FEF45D963C733 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E24A7DC66067025CC002D6 /* Models.swift */; };
+		C531D2A63D19FDF065ED2194 /* DownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1DD2112179F29547CB16F /* DownloadView.swift */; };
+		C9E9D150A11250A68BC8C9A7 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A422F27FFDE75B668DDA04 /* ActivityView.swift */; };
+		CBB5792756C58A95CC294670 /* YTDLPInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62BB11405355CCFDBFFC589 /* YTDLPInstaller.swift */; };
+		D30DA0BFD957F677E0F14377 /* YTDLPPlaylistParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC36D099AB2D9F88CA21E8D /* YTDLPPlaylistParser.swift */; };
+		DA6F52EF5DF5DA5370CABC71 /* PullDownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C216916152AF2A01C8CD62D /* PullDownApp.swift */; };
+		F2A3A5F7C51341117D214630 /* GlassComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878EA7D3FC18F0ACD2D1B88D /* GlassComponents.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0CCEE153B94F848C2E370B9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8215D37AC0D35B7B8615BC6A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72789967CEABA706F031BB2B;
+			remoteInfo = PullDown;
+		};
+		6726CC7525CA6A24AF6FBFD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8215D37AC0D35B7B8615BC6A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72789967CEABA706F031BB2B;
+			remoteInfo = PullDown;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E9260DE07304F96AEE499B5 /* ExecutableLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutableLocator.swift; sourceTree = "<group>"; };
+		166DFFF3935310B7CF296B04 /* ExecutableLocatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutableLocatorTests.swift; sourceTree = "<group>"; };
+		2183EF42C270380B04950365 /* YTDLPCommandBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPCommandBuilder.swift; sourceTree = "<group>"; };
+		35D9398ECCE9B8D1D9174997 /* YTDLPInstallerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPInstallerTests.swift; sourceTree = "<group>"; };
+		3956079AD0D36F1E635A074D /* PullDownModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownModel.swift; sourceTree = "<group>"; };
+		452026030D393736D5322BF0 /* YouTubeURLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeURLParser.swift; sourceTree = "<group>"; };
+		50CDA7968588C3715FB0967F /* PullDownUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PullDownUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		51F4FD6F8226296BD5BD957F /* YTDLPCommandBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPCommandBuilderTests.swift; sourceTree = "<group>"; };
+		584E8682491E13C68441ECF4 /* PullDownModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownModelTests.swift; sourceTree = "<group>"; };
+		64B8ADBCB5FFCDEAE7C7C495 /* YTDLPPlaylistParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPPlaylistParserTests.swift; sourceTree = "<group>"; };
+		705F87BA657A964A8E765855 /* YouTubeURLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeURLParserTests.swift; sourceTree = "<group>"; };
+		70F296DB1ADAC1E783C6BC23 /* ProcessRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessRunner.swift; sourceTree = "<group>"; };
+		794B8FD7FA80C1206A01F527 /* PullDownTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PullDownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		85C72FF3DC9199C39C7D886B /* MenuBarDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDownloadView.swift; sourceTree = "<group>"; };
+		878EA7D3FC18F0ACD2D1B88D /* GlassComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassComponents.swift; sourceTree = "<group>"; };
+		8C216916152AF2A01C8CD62D /* PullDownApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownApp.swift; sourceTree = "<group>"; };
+		92A1DD2112179F29547CB16F /* DownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadView.swift; sourceTree = "<group>"; };
+		980159A329D17192F1AEB60D /* PullDownUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownUITests.swift; sourceTree = "<group>"; };
+		A28D224819D817C0A78EF815 /* YTDLPOutputParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPOutputParserTests.swift; sourceTree = "<group>"; };
+		B309FB61AD4D560DC5448201 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B90B9DD6294D31567CEB57F9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		BD88592B4B801B71E3BCAEA7 /* PullDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PullDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5E24A7DC66067025CC002D6 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		E62BB11405355CCFDBFFC589 /* YTDLPInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPInstaller.swift; sourceTree = "<group>"; };
+		E9A422F27FFDE75B668DDA04 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		F9432C9FBD93C8DD1EC0537C /* YTDLPOutputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPOutputParser.swift; sourceTree = "<group>"; };
+		FFC36D099AB2D9F88CA21E8D /* YTDLPPlaylistParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPPlaylistParser.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		370D5721D239B87336A1C004 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				980159A329D17192F1AEB60D /* PullDownUITests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		3E7954FEBD49014000AABF3E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD88592B4B801B71E3BCAEA7 /* PullDown.app */,
+				794B8FD7FA80C1206A01F527 /* PullDownTests.xctest */,
+				50CDA7968588C3715FB0967F /* PullDownUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6F094D22F7A2A99D75E36911 = {
+			isa = PBXGroup;
+			children = (
+				A3A5675A2685C6182FC1EE64 /* PullDown */,
+				EF261426375076D0DF127D30 /* PullDownTests */,
+				370D5721D239B87336A1C004 /* UITests */,
+				3E7954FEBD49014000AABF3E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9E7C503C8A8A6CB8EBD97255 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E9A422F27FFDE75B668DDA04 /* ActivityView.swift */,
+				92A1DD2112179F29547CB16F /* DownloadView.swift */,
+				878EA7D3FC18F0ACD2D1B88D /* GlassComponents.swift */,
+				85C72FF3DC9199C39C7D886B /* MenuBarDownloadView.swift */,
+				B90B9DD6294D31567CEB57F9 /* RootView.swift */,
+				B309FB61AD4D560DC5448201 /* SettingsView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		A3A5675A2685C6182FC1EE64 /* PullDown */ = {
+			isa = PBXGroup;
+			children = (
+				8C216916152AF2A01C8CD62D /* PullDownApp.swift */,
+				AB0E8622E372C96A9F71831A /* Core */,
+				9E7C503C8A8A6CB8EBD97255 /* UI */,
+			);
+			name = PullDown;
+			path = Sources/PullDown;
+			sourceTree = "<group>";
+		};
+		AB0E8622E372C96A9F71831A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				0E9260DE07304F96AEE499B5 /* ExecutableLocator.swift */,
+				D5E24A7DC66067025CC002D6 /* Models.swift */,
+				70F296DB1ADAC1E783C6BC23 /* ProcessRunner.swift */,
+				3956079AD0D36F1E635A074D /* PullDownModel.swift */,
+				452026030D393736D5322BF0 /* YouTubeURLParser.swift */,
+				2183EF42C270380B04950365 /* YTDLPCommandBuilder.swift */,
+				E62BB11405355CCFDBFFC589 /* YTDLPInstaller.swift */,
+				F9432C9FBD93C8DD1EC0537C /* YTDLPOutputParser.swift */,
+				FFC36D099AB2D9F88CA21E8D /* YTDLPPlaylistParser.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		EF261426375076D0DF127D30 /* PullDownTests */ = {
+			isa = PBXGroup;
+			children = (
+				166DFFF3935310B7CF296B04 /* ExecutableLocatorTests.swift */,
+				584E8682491E13C68441ECF4 /* PullDownModelTests.swift */,
+				705F87BA657A964A8E765855 /* YouTubeURLParserTests.swift */,
+				51F4FD6F8226296BD5BD957F /* YTDLPCommandBuilderTests.swift */,
+				35D9398ECCE9B8D1D9174997 /* YTDLPInstallerTests.swift */,
+				A28D224819D817C0A78EF815 /* YTDLPOutputParserTests.swift */,
+				64B8ADBCB5FFCDEAE7C7C495 /* YTDLPPlaylistParserTests.swift */,
+			);
+			name = PullDownTests;
+			path = Tests/PullDownTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3A3186BAEB2637691D1D787D /* PullDownUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE5C9AC30E343B1CF4B0ADA0 /* Build configuration list for PBXNativeTarget "PullDownUITests" */;
+			buildPhases = (
+				378C3BE0A0FB1EBBC8BD48F3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2CFF550733C228478592A497 /* PBXTargetDependency */,
+			);
+			name = PullDownUITests;
+			packageProductDependencies = (
+			);
+			productName = PullDownUITests;
+			productReference = 50CDA7968588C3715FB0967F /* PullDownUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		72789967CEABA706F031BB2B /* PullDown */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF7CE4CE4CDB6C6581D5F6EB /* Build configuration list for PBXNativeTarget "PullDown" */;
+			buildPhases = (
+				B3A76C67CC54E6E6729C2D9D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PullDown;
+			packageProductDependencies = (
+			);
+			productName = PullDown;
+			productReference = BD88592B4B801B71E3BCAEA7 /* PullDown.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9DA120F246F50EA0233F3F0D /* PullDownTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA9363A96898573C43D24B24 /* Build configuration list for PBXNativeTarget "PullDownTests" */;
+			buildPhases = (
+				FFEC26AB657631B6281A0514 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0CC9E799B92223725F44DE1B /* PBXTargetDependency */,
+			);
+			name = PullDownTests;
+			packageProductDependencies = (
+			);
+			productName = PullDownTests;
+			productReference = 794B8FD7FA80C1206A01F527 /* PullDownTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8215D37AC0D35B7B8615BC6A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3A3186BAEB2637691D1D787D = {
+						ProvisioningStyle = Automatic;
+						TestTargetID = 72789967CEABA706F031BB2B;
+					};
+					72789967CEABA706F031BB2B = {
+						ProvisioningStyle = Automatic;
+					};
+					9DA120F246F50EA0233F3F0D = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7C015534F99EE023ECD17584 /* Build configuration list for PBXProject "PullDown" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6F094D22F7A2A99D75E36911;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3E7954FEBD49014000AABF3E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				72789967CEABA706F031BB2B /* PullDown */,
+				9DA120F246F50EA0233F3F0D /* PullDownTests */,
+				3A3186BAEB2637691D1D787D /* PullDownUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		378C3BE0A0FB1EBBC8BD48F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7858824FD8B878B4C3950A06 /* PullDownUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3A76C67CC54E6E6729C2D9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9E9D150A11250A68BC8C9A7 /* ActivityView.swift in Sources */,
+				C531D2A63D19FDF065ED2194 /* DownloadView.swift in Sources */,
+				0BB66DE168438EE7225E413E /* ExecutableLocator.swift in Sources */,
+				F2A3A5F7C51341117D214630 /* GlassComponents.swift in Sources */,
+				A404ADECB650FC4D1B911427 /* MenuBarDownloadView.swift in Sources */,
+				B3B0B4146B1FEF45D963C733 /* Models.swift in Sources */,
+				81D303F0EE60C1C4614F43C1 /* ProcessRunner.swift in Sources */,
+				DA6F52EF5DF5DA5370CABC71 /* PullDownApp.swift in Sources */,
+				A17D10662D7A250B16736F99 /* PullDownModel.swift in Sources */,
+				73295D1F3E9B41997494926B /* RootView.swift in Sources */,
+				372CD2B8C3992D522DFBF565 /* SettingsView.swift in Sources */,
+				8AA22E362AF94E89B580C0A0 /* YTDLPCommandBuilder.swift in Sources */,
+				CBB5792756C58A95CC294670 /* YTDLPInstaller.swift in Sources */,
+				019DB2F0AC7F695ECB488376 /* YTDLPOutputParser.swift in Sources */,
+				D30DA0BFD957F677E0F14377 /* YTDLPPlaylistParser.swift in Sources */,
+				316BB42B233CE2C6A5C14FE5 /* YouTubeURLParser.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FFEC26AB657631B6281A0514 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7A8885D49B2FFC8473B0C788 /* ExecutableLocatorTests.swift in Sources */,
+				7622545B52403ED5F2B55C81 /* PullDownModelTests.swift in Sources */,
+				6842D138047A6ABBAACB8804 /* YTDLPCommandBuilderTests.swift in Sources */,
+				423409AFF9FBE355B1D286F9 /* YTDLPInstallerTests.swift in Sources */,
+				A163979068210537B108ED92 /* YTDLPOutputParserTests.swift in Sources */,
+				9C86AF2148D3574E67EF3298 /* YTDLPPlaylistParserTests.swift in Sources */,
+				AE31F00EEDAC2B6445B73A3A /* YouTubeURLParserTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0CC9E799B92223725F44DE1B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72789967CEABA706F031BB2B /* PullDown */;
+			targetProxy = 0CCEE153B94F848C2E370B9D /* PBXContainerItemProxy */;
+		};
+		2CFF550733C228478592A497 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72789967CEABA706F031BB2B /* PullDown */;
+			targetProxy = 6726CC7525CA6A24AF6FBFD5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		06FF5D19107D3F8B78233D74 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.j4ck.PullDownUITests;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TEST_TARGET_NAME = PullDown;
+			};
+			name = Debug;
+		};
+		3E9ED249BE38018E42EECAA9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		5B5BD7D1352B1995A67FE504 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.j4ck.PullDownTests;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PullDown.app/Contents/MacOS/PullDown";
+			};
+			name = Release;
+		};
+		70F90ABE3C0BCCBFB32125B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = PullDown;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.j4ck.PullDown;
+				PRODUCT_NAME = PullDown;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+			};
+			name = Debug;
+		};
+		799D7A8A48C668A50AFE7566 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.j4ck.PullDownTests;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PullDown.app/Contents/MacOS/PullDown";
+			};
+			name = Debug;
+		};
+		907CAAF9728D437A07B54274 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		D0792BF68EB77D791B1A5A9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.j4ck.PullDownUITests;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TEST_TARGET_NAME = PullDown;
+			};
+			name = Release;
+		};
+		EA631F6EC0D001690FFE7E1B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = NO;
+				INFOPLIST_KEY_CFBundleDisplayName = PullDown;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = xyz.j4ck.PullDown;
+				PRODUCT_NAME = PullDown;
+				SDKROOT = macosx;
+				SWIFT_STRICT_CONCURRENCY = complete;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7C015534F99EE023ECD17584 /* Build configuration list for PBXProject "PullDown" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				907CAAF9728D437A07B54274 /* Debug */,
+				3E9ED249BE38018E42EECAA9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BF7CE4CE4CDB6C6581D5F6EB /* Build configuration list for PBXNativeTarget "PullDown" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70F90ABE3C0BCCBFB32125B1 /* Debug */,
+				EA631F6EC0D001690FFE7E1B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CE5C9AC30E343B1CF4B0ADA0 /* Build configuration list for PBXNativeTarget "PullDownUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06FF5D19107D3F8B78233D74 /* Debug */,
+				D0792BF68EB77D791B1A5A9C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EA9363A96898573C43D24B24 /* Build configuration list for PBXNativeTarget "PullDownTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				799D7A8A48C668A50AFE7566 /* Debug */,
+				5B5BD7D1352B1995A67FE504 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8215D37AC0D35B7B8615BC6A /* Project object */;
+}
