@@ -1,24 +1,16 @@
 import AppKit
 import SwiftUI
 
-private enum SidebarDestination: String, CaseIterable, Identifiable {
-    case download
-    case activity
-
-    var id: Self { self }
-    var title: String { rawValue.capitalized }
-    var symbol: String { self == .download ? "arrow.down.to.line" : "clock.arrow.circlepath" }
-}
-
 struct RootView: View {
     @Environment(PullDownModel.self) private var model
-    @State private var selection: SidebarDestination? = .download
+    @AppStorage(AppPreferenceKeys.destinationPath) private var destinationPath = AppDefaults.downloadsDirectory.path
+    @State private var selection: AppSection = .download
 
     var body: some View {
         VStack(spacing: 0) {
-            switch selection ?? .download {
+            switch selection {
             case .download:
-                DownloadView()
+                DownloadView(draft: model.downloadDraft)
             case .activity:
                 ActivityView()
             }
@@ -49,9 +41,9 @@ struct RootView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Picker("Section", selection: $selection) {
-                    ForEach(SidebarDestination.allCases) { destination in
+                    ForEach(AppSection.allCases) { destination in
                         Label(destination.title, systemImage: destination.symbol)
-                            .tag(Optional(destination))
+                            .tag(destination)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -76,6 +68,16 @@ struct RootView: View {
                 .accessibilityLabel("Check yt-dlp again")
                 .accessibilityInputLabels(["Check yt-dlp again", "Refresh"])
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showDownloadSection)) { _ in
+            selection = .download
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .showActivitySection)) { _ in
+            selection = .activity
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .startConfiguredDownload)) { _ in
+            guard model.canStartDraftDownload else { return }
+            Task { await model.startDraftDownload(destinationPath: destinationPath) }
         }
     }
 }

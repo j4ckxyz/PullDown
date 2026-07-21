@@ -6,14 +6,7 @@ struct DownloadView: View {
     @AppStorage(AppPreferenceKeys.destinationPath) private var destinationPath = AppDefaults.downloadsDirectory.path
     @AppStorage(AppPreferenceKeys.defaultMediaKind) private var defaultMediaKind = MediaKind.video.rawValue
 
-    @State private var urlInput = ""
-    @State private var mediaKind: MediaKind = .video
-    @State private var options = DownloadOptions()
-    @State private var showsAdvanced = false
-    @State private var playlistInfo: PlaylistInfo?
-    @State private var selectedPlaylistIndices = Set<Int>()
-    @State private var loadedPlaylistURL: URL?
-    @State private var isLoadingPlaylist = false
+    @Bindable var draft: DownloadDraft
     @FocusState private var urlFieldFocused: Bool
 
     var body: some View {
@@ -33,33 +26,18 @@ struct DownloadView: View {
         .defaultScrollAnchor(.top)
         .background(Color(nsColor: .windowBackgroundColor))
         .onAppear {
-            mediaKind = MediaKind(rawValue: defaultMediaKind) ?? .video
-            urlFieldFocused = true
-#if DEBUG
-            if let previewInput = ProcessInfo.processInfo.environment["PULLDOWN_PREVIEW_URL"],
-               let urls = try? YouTubeURLParser.parse(previewInput),
-               urls.contains(where: YouTubeURLParser.containsPlaylist) {
-                urlInput = urls.map(\.absoluteString).joined(separator: "\n")
+            if draft.didLoadPreferences == false {
+                draft.mediaKind = MediaKind(rawValue: defaultMediaKind) ?? .video
+                draft.didLoadPreferences = true
             }
-#endif
+            urlFieldFocused = true
         }
-        .onChange(of: urlInput) { _, _ in
-            guard loadedPlaylistURL != detectedPlaylistURL else { return }
-            playlistInfo = nil
-            selectedPlaylistIndices.removeAll()
-            loadedPlaylistURL = nil
+        .onChange(of: draft.urlInput) { _, _ in
+            guard draft.loadedPlaylistURL != detectedPlaylistURL else { return }
+            draft.playlistInfo = nil
+            draft.selectedPlaylistIndices.removeAll()
+            draft.loadedPlaylistURL = nil
         }
-#if DEBUG
-        .task(id: model.toolState.isReady) {
-            guard model.toolState.isReady,
-                  let previewInput = ProcessInfo.processInfo.environment["PULLDOWN_PREVIEW_URL"],
-                  let urls = try? YouTubeURLParser.parse(previewInput),
-                  let playlistURL = urls.first(where: YouTubeURLParser.containsPlaylist),
-                  loadedPlaylistURL != playlistURL,
-                  isLoadingPlaylist == false else { return }
-            loadPlaylist(playlistURL)
-        }
-#endif
     }
 
     private var header: some View {
@@ -96,7 +74,7 @@ struct DownloadView: View {
                         .keyboardShortcut("v", modifiers: [.command, .shift])
                 }
 
-                TextEditor(text: $urlInput)
+                TextEditor(text: $draft.urlInput)
                     .font(.body)
                     .scrollContentBackground(.hidden)
                     .padding(10)
@@ -112,7 +90,7 @@ struct DownloadView: View {
                     .accessibilityIdentifier("urlEditor")
             }
 
-            Picker("Download as", selection: $mediaKind) {
+            Picker("Download as", selection: $draft.mediaKind) {
                 ForEach(MediaKind.allCases) { kind in
                     Label(kind.title, systemImage: kind.symbol).tag(kind)
                 }
@@ -124,7 +102,7 @@ struct DownloadView: View {
             playlistControls
             destinationRow
 
-            DisclosureGroup("Advanced options", isExpanded: $showsAdvanced) {
+            DisclosureGroup("Advanced options", isExpanded: $draft.showsAdvanced) {
                 advancedOptions
                     .padding(.top, 12)
             }
@@ -144,7 +122,6 @@ struct DownloadView: View {
                 Button(model.isDownloading ? "Downloading…" : "Download") {
                     startDownload()
                 }
-                .keyboardShortcut(.return, modifiers: [.command])
                 .disabled(canDownload == false)
                 .pullDownPrimaryButtonStyle()
                 .accessibilityIdentifier("downloadButton")
@@ -156,24 +133,24 @@ struct DownloadView: View {
     @ViewBuilder
     private var qualityControls: some View {
         HStack(alignment: .top, spacing: 16) {
-            if mediaKind == .video {
-                Picker("Quality", selection: $options.videoQuality) {
+            if draft.mediaKind == .video {
+                Picker("Quality", selection: $draft.options.videoQuality) {
                     ForEach(VideoQuality.allCases) { quality in
                         Text(quality.title).tag(quality)
                     }
                 }
-                Picker("Container", selection: $options.videoContainer) {
+                Picker("Container", selection: $draft.options.videoContainer) {
                     ForEach(VideoContainer.allCases) { container in
                         Text(container.title).tag(container)
                     }
                 }
             } else {
-                Picker("Format", selection: $options.audioFormat) {
+                Picker("Format", selection: $draft.options.audioFormat) {
                     ForEach(AudioFormat.allCases) { format in
                         Text(format.title).tag(format)
                     }
                 }
-                Picker("Quality", selection: $options.audioQuality) {
+                Picker("Quality", selection: $draft.options.audioQuality) {
                     ForEach(AudioQuality.allCases) { quality in
                         Text(quality.title).tag(quality)
                     }
@@ -209,32 +186,33 @@ struct DownloadView: View {
                     Label("Playlist detected", systemImage: "rectangle.stack.fill")
                         .font(.headline)
                     Spacer()
-                    if isLoadingPlaylist {
+                    if draft.isLoadingPlaylist {
                         ProgressView()
                             .controlSize(.small)
                             .accessibilityLabel("Loading playlist videos")
                     } else {
-                        Button(playlistInfo == nil ? "Choose videos…" : "Reload playlist") {
+                        Button(draft.playlistInfo == nil ? "Choose videos…" : "Reload playlist") {
                             loadPlaylist(playlistURL)
                         }
+                        .disabled(model.isDownloading)
                     }
                 }
 
-                if let playlistInfo {
+                if let playlistInfo = draft.playlistInfo {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(playlistInfo.title)
                                 .font(.subheadline.weight(.semibold))
-                            Text("\(selectedPlaylistIndices.count) of \(playlistInfo.videos.count) videos selected")
+                            Text("\(draft.selectedPlaylistIndices.count) of \(playlistInfo.videos.count) videos selected")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
                         Spacer()
                         Button("Select all") {
-                            selectedPlaylistIndices = Set(playlistInfo.videos.map(\.index))
+                            draft.selectedPlaylistIndices = Set(playlistInfo.videos.map(\.index))
                         }
                         Button("Select none") {
-                            selectedPlaylistIndices.removeAll()
+                            draft.selectedPlaylistIndices.removeAll()
                         }
                     }
 
@@ -286,20 +264,20 @@ struct DownloadView: View {
     private var advancedOptions: some View {
         Grid(alignment: .leading, horizontalSpacing: 20, verticalSpacing: 12) {
             GridRow {
-                Toggle("Download playlists", isOn: $options.downloadPlaylist)
-                Toggle("Embed metadata", isOn: $options.embedMetadata)
+                Toggle("Download playlists", isOn: $draft.options.downloadPlaylist)
+                Toggle("Embed metadata", isOn: $draft.options.embedMetadata)
             }
             GridRow {
-                Toggle("Embed thumbnail", isOn: $options.embedThumbnail)
-                Toggle("Include subtitles", isOn: $options.includeSubtitles)
-                    .disabled(mediaKind == .audio)
+                Toggle("Embed thumbnail", isOn: $draft.options.embedThumbnail)
+                Toggle("Include subtitles", isOn: $draft.options.includeSubtitles)
+                    .disabled(draft.mediaKind == .audio)
             }
             GridRow {
-                Stepper("Concurrent fragments: \(options.concurrentFragments)", value: $options.concurrentFragments, in: 1...16)
+                Stepper("Concurrent fragments: \(draft.options.concurrentFragments)", value: $draft.options.concurrentFragments, in: 1...16)
                     .gridCellColumns(2)
             }
             GridRow {
-                TextField("Filename template", text: $options.filenameTemplate)
+                TextField("Filename template", text: $draft.options.filenameTemplate)
                     .textFieldStyle(.roundedBorder)
                     .gridCellColumns(2)
                     .accessibilityHint("Uses yt-dlp output template syntax.")
@@ -328,27 +306,24 @@ struct DownloadView: View {
     }
 
     private var needsFFmpeg: Bool {
-        mediaKind == .audio || options.videoQuality != .best || options.videoContainer != .automatic
+        draft.mediaKind == .audio || draft.options.videoQuality != .best || draft.options.videoContainer != .automatic
     }
 
     private var canDownload: Bool {
-        model.toolState.isReady
-            && model.isDownloading == false
-            && urlInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
-            && (playlistInfo == nil || selectedPlaylistIndices.isEmpty == false)
+        model.canStartDraftDownload
     }
 
     private var detectedPlaylistURL: URL? {
-        guard let urls = try? YouTubeURLParser.parse(urlInput) else { return nil }
+        guard let urls = try? YouTubeURLParser.parse(draft.urlInput) else { return nil }
         return urls.first(where: YouTubeURLParser.containsPlaylist)
     }
 
     private func pasteURL() {
         guard let value = NSPasteboard.general.string(forType: .string), value.isEmpty == false else { return }
         if let urls = try? YouTubeURLParser.parse(value) {
-            urlInput = urls.map(\.absoluteString).joined(separator: "\n")
+            draft.urlInput = urls.map(\.absoluteString).joined(separator: "\n")
         } else {
-            urlInput = value
+            draft.urlInput = value
         }
         urlFieldFocused = true
     }
@@ -367,51 +342,33 @@ struct DownloadView: View {
     }
 
     private func startDownload() {
-        do {
-            let urls = try YouTubeURLParser.parse(urlInput)
-            urlInput = urls.map(\.absoluteString).joined(separator: "\n")
-            var requestOptions = options
-            if urls.contains(where: YouTubeURLParser.containsPlaylist) {
-                requestOptions.downloadPlaylist = true
-                if let playlistInfo, selectedPlaylistIndices.count < playlistInfo.videos.count {
-                    requestOptions.playlistItems = selectedPlaylistIndices.sorted()
-                }
-            }
-            let request = DownloadRequest(
-                urls: urls,
-                kind: mediaKind,
-                destination: URL(fileURLWithPath: destinationPath, isDirectory: true),
-                options: requestOptions
-            )
-            Task { await model.startDownload(request) }
-        } catch {
-            model.errorMessage = error.localizedDescription
-        }
+        Task { await model.startDraftDownload(destinationPath: destinationPath) }
     }
 
     private func loadPlaylist(_ url: URL) {
-        isLoadingPlaylist = true
+        guard model.isDownloading == false else { return }
+        draft.isLoadingPlaylist = true
         Task {
             do {
                 let info = try await model.inspectPlaylist(at: url)
-                playlistInfo = info
-                selectedPlaylistIndices = Set(info.videos.map(\.index))
-                loadedPlaylistURL = url
+                draft.playlistInfo = info
+                draft.selectedPlaylistIndices = Set(info.videos.map(\.index))
+                draft.loadedPlaylistURL = url
             } catch {
                 model.errorMessage = error.localizedDescription
             }
-            isLoadingPlaylist = false
+            draft.isLoadingPlaylist = false
         }
     }
 
     private func playlistBinding(for index: Int) -> Binding<Bool> {
         Binding(
-            get: { selectedPlaylistIndices.contains(index) },
+            get: { draft.selectedPlaylistIndices.contains(index) },
             set: { isSelected in
                 if isSelected {
-                    selectedPlaylistIndices.insert(index)
+                    draft.selectedPlaylistIndices.insert(index)
                 } else {
-                    selectedPlaylistIndices.remove(index)
+                    draft.selectedPlaylistIndices.remove(index)
                 }
             }
         )

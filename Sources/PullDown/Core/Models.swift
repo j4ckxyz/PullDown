@@ -1,4 +1,5 @@
 import Foundation
+import Observation
 
 enum MediaKind: String, CaseIterable, Identifiable, Codable, Sendable {
     case video
@@ -67,7 +68,7 @@ enum AudioQuality: String, CaseIterable, Identifiable, Codable, Sendable {
     var title: String { self == .best ? "Best available" : rawValue.replacingOccurrences(of: "K", with: " kbps") }
 }
 
-struct DownloadOptions: Equatable, Sendable {
+struct DownloadOptions: Equatable, Codable, Sendable {
     var videoQuality: VideoQuality = .best
     var videoContainer: VideoContainer = .automatic
     var audioFormat: AudioFormat = .m4a
@@ -107,7 +108,7 @@ struct PlaylistInfo: Equatable, Sendable {
     let videos: [PlaylistVideo]
 }
 
-struct DownloadRequest: Equatable, Sendable {
+struct DownloadRequest: Equatable, Codable, Sendable {
     let urls: [URL]
     let kind: MediaKind
     let destination: URL
@@ -170,6 +171,89 @@ struct DownloadJob: Identifiable, Equatable, Sendable {
         createdAt = Date()
         phase = .queued
         progress = 0
+    }
+}
+
+@Observable
+@MainActor
+final class DownloadDraft {
+    var urlInput = ""
+    var mediaKind: MediaKind = .video
+    var options = DownloadOptions()
+    var showsAdvanced = false
+    var playlistInfo: PlaylistInfo?
+    var selectedPlaylistIndices = Set<Int>()
+    var loadedPlaylistURL: URL?
+    var isLoadingPlaylist = false
+    var didLoadPreferences = false
+}
+
+enum DownloadHistoryStatus: String, Codable, Sendable {
+    case completed
+    case cancelled
+    case failed
+
+    var title: String {
+        switch self {
+        case .completed: "Complete"
+        case .cancelled: "Cancelled"
+        case .failed: "Failed"
+        }
+    }
+}
+
+struct DownloadHistoryItem: Identifiable, Equatable, Codable, Sendable {
+    let id: UUID
+    let request: DownloadRequest
+    let startedAt: Date
+    let finishedAt: Date
+    let status: DownloadHistoryStatus
+    let outputPath: String?
+    let failureMessage: String?
+
+    init?(job: DownloadJob, finishedAt: Date = Date()) {
+        let status: DownloadHistoryStatus
+        let failureMessage: String?
+        switch job.phase {
+        case .completed:
+            status = .completed
+            failureMessage = nil
+        case .cancelled:
+            status = .cancelled
+            failureMessage = nil
+        case let .failed(message):
+            status = .failed
+            failureMessage = message
+        case .queued, .downloading, .processing:
+            return nil
+        }
+
+        id = job.id
+        request = job.request
+        startedAt = job.createdAt
+        self.finishedAt = finishedAt
+        self.status = status
+        outputPath = job.outputPath
+        self.failureMessage = failureMessage
+    }
+
+    var displayName: String {
+        if request.options.downloadPlaylist {
+            return "Playlist download"
+        }
+        if let outputPath {
+            return URL(fileURLWithPath: outputPath).lastPathComponent
+        }
+        return request.urls.first?.host ?? request.kind.title
+    }
+
+    var destinationURL: URL {
+        URL(fileURLWithPath: request.destination.path, isDirectory: true)
+    }
+
+    var outputURL: URL? {
+        guard request.options.downloadPlaylist == false else { return nil }
+        return outputPath.map { URL(fileURLWithPath: $0) }
     }
 }
 

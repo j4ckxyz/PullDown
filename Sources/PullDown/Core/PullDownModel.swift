@@ -4,9 +4,11 @@ import Observation
 @Observable
 @MainActor
 final class PullDownModel {
+    let downloadDraft = DownloadDraft()
     private(set) var toolState: ToolState = .checking
     private(set) var ffmpegExecutable: URL?
     private(set) var jobs: [DownloadJob] = []
+    private(set) var history: [DownloadHistoryItem] = []
     private(set) var logText = ""
     var errorMessage: String?
 
@@ -14,8 +16,10 @@ final class PullDownModel {
     private let ffmpegExecutableLocator: any ExecutableLocating
     private let installer: any YTDLPInstalling
     private let processRunner: any ProcessRunning
+    private let historyStore: any DownloadHistoryStoring
     private let managedBinDirectory: URL
     private var didBootstrap = false
+    private var didLoadHistory = false
     private var currentJobID: UUID?
     private var cancellationRequested = false
 
@@ -24,18 +28,29 @@ final class PullDownModel {
         ffmpegExecutableLocator: any ExecutableLocating = ExecutableLocator(),
         installer: any YTDLPInstalling = YTDLPInstaller(),
         processRunner: any ProcessRunning = ProcessRunner(),
+        historyStore: any DownloadHistoryStoring = DownloadHistoryStore(),
         managedBinDirectory: URL = ExecutableLocator.defaultManagedBinDirectory()
     ) {
         self.ytDLPExecutableLocator = ytDLPExecutableLocator
         self.ffmpegExecutableLocator = ffmpegExecutableLocator
         self.installer = installer
         self.processRunner = processRunner
+        self.historyStore = historyStore
         self.managedBinDirectory = managedBinDirectory
     }
 
     var isDownloading: Bool { currentJobID != nil }
 
+    var canStartDraftDownload: Bool {
+        toolState.isReady
+            && isDownloading == false
+            && downloadDraft.isLoadingPlaylist == false
+            && downloadDraft.urlInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+            && (downloadDraft.playlistInfo == nil || downloadDraft.selectedPlaylistIndices.isEmpty == false)
+    }
+
     func bootstrap(force: Bool = false) async {
+        await loadHistoryIfNeeded()
         guard force || didBootstrap == false else { return }
         didBootstrap = true
         toolState = .checking
@@ -93,21 +108,44 @@ final class PullDownModel {
                     consume(text, for: job.id)
                 }
             }
-            updateJob(job.id) {
-                $0.phase = .completed
-                $0.progress = 1
+            if cancellationRequested {
+                updateJob(job.id) {
+                    $0.phase = .cancelled
+                    $0.speed = nil
+                    $0.eta = nil
+                }
+            } else {
+                updateJob(job.id) {
+                    $0.phase = .completed
+                    $0.progress = 1
+                    $0.speed = nil
+                    $0.eta = nil
+                }
             }
         } catch is CancellationError {
-            updateJob(job.id) { $0.phase = .cancelled }
+            updateJob(job.id) {
+                $0.phase = .cancelled
+                $0.speed = nil
+                $0.eta = nil
+            }
         } catch {
             if cancellationRequested {
-                updateJob(job.id) { $0.phase = .cancelled }
+                updateJob(job.id) {
+                    $0.phase = .cancelled
+                    $0.speed = nil
+                    $0.eta = nil
+                }
             } else {
-                updateJob(job.id) { $0.phase = .failed(error.localizedDescription) }
+                updateJob(job.id) {
+                    $0.phase = .failed(error.localizedDescription)
+                    $0.speed = nil
+                    $0.eta = nil
+                }
                 errorMessage = error.localizedDescription
             }
         }
 
+        await archiveJob(job.id)
         currentJobID = nil
         cancellationRequested = false
     }
@@ -117,6 +155,40 @@ final class PullDownModel {
         cancellationRequested = true
         updateJob(currentJobID) { $0.phase = .cancelled }
         await processRunner.cancel()
+    }
+
+    func startDraftDownload(destinationPath: String) async {
+        guard canStartDraftDownload else { return }
+        do {
+            let urls = try YouTubeURLParser.parse(downloadDraft.urlInput)
+            downloadDraft.urlInput = urls.map(\.absoluteString).joined(separator: "\n")
+            var requestOptions = downloadDraft.options
+            if urls.contains(where: YouTubeURLParser.containsPlaylist) {
+                requestOptions.downloadPlaylist = true
+                if let playlistInfo = downloadDraft.playlistInfo,
+                   downloadDraft.selectedPlaylistIndices.count < playlistInfo.videos.count {
+                    requestOptions.playlistItems = downloadDraft.selectedPlaylistIndices.sorted()
+                }
+            }
+            let request = DownloadRequest(
+                urls: urls,
+                kind: downloadDraft.mediaKind,
+                destination: URL(fileURLWithPath: destinationPath, isDirectory: true),
+                options: requestOptions
+            )
+            await startDownload(request)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func clearHistory() async {
+        history.removeAll()
+        do {
+            try await historyStore.save(history)
+        } catch {
+            logText += "\nCould not save download history: \(error.localizedDescription)\n"
+        }
     }
 
     func inspectPlaylist(at url: URL) async throws -> PlaylistInfo {
@@ -163,8 +235,44 @@ final class PullDownModel {
                 if let speed = parsed.speed { job.speed = speed }
                 if let eta = parsed.eta { job.eta = eta }
                 if let outputPath = parsed.outputPath { job.outputPath = outputPath }
-                if parsed.isPostProcessing { job.phase = .processing }
+                if parsed.isPostProcessing {
+                    job.phase = .processing
+                    job.speed = nil
+                    job.eta = nil
+                } else if parsed.progress == 1 {
+                    job.speed = nil
+                    job.eta = nil
+                }
             }
+        }
+    }
+
+    private func loadHistoryIfNeeded() async {
+        guard didLoadHistory == false else { return }
+        didLoadHistory = true
+        do {
+            history = try await historyStore.load()
+                .sorted { $0.finishedAt > $1.finishedAt }
+        } catch {
+            logText += "Could not load download history: \(error.localizedDescription)\n"
+        }
+    }
+
+    private func archiveJob(_ id: UUID) async {
+        guard
+            let job = jobs.first(where: { $0.id == id }),
+            let item = DownloadHistoryItem(job: job)
+        else { return }
+
+        history.removeAll { $0.id == item.id }
+        history.insert(item, at: 0)
+        if history.count > 200 {
+            history.removeLast(history.count - 200)
+        }
+        do {
+            try await historyStore.save(history)
+        } catch {
+            logText += "\nCould not save download history: \(error.localizedDescription)\n"
         }
     }
 

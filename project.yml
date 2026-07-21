@@ -9,6 +9,8 @@ settings:
     MACOSX_DEPLOYMENT_TARGET: "15.0"
     GENERATE_INFOPLIST_FILE: YES
     CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 2
+    MARKETING_VERSION: 0.2.0
 targets:
   PullDown:
     type: application

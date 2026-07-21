@@ -35,6 +35,17 @@ private actor StubProcessRunner: ProcessRunning {
     func cancel() async { wasCancelled = true }
 }
 
+private actor InMemoryHistoryStore: DownloadHistoryStoring {
+    private var items: [DownloadHistoryItem]
+
+    init(items: [DownloadHistoryItem] = []) {
+        self.items = items
+    }
+
+    func load() -> [DownloadHistoryItem] { items }
+    func save(_ items: [DownloadHistoryItem]) { self.items = items }
+}
+
 @MainActor
 struct PullDownModelTests {
     @Test func bootstrapDiscoversAndVerifiesTools() async {
@@ -46,6 +57,7 @@ struct PullDownModelTests {
             ffmpegExecutableLocator: StubLocator(values: ["ffmpeg": ffmpeg]),
             installer: StubInstaller(result: ytDLP),
             processRunner: runner,
+            historyStore: InMemoryHistoryStore(),
             managedBinDirectory: URL(fileURLWithPath: "/managed")
         )
 
@@ -66,6 +78,7 @@ struct PullDownModelTests {
             ffmpegExecutableLocator: StubLocator(values: [:]),
             installer: StubInstaller(result: ytDLP),
             processRunner: runner,
+            historyStore: InMemoryHistoryStore(),
             managedBinDirectory: URL(fileURLWithPath: "/managed")
         )
         await model.bootstrap()
@@ -83,6 +96,24 @@ struct PullDownModelTests {
         #expect(job.phase == .completed)
         #expect(job.progress == 1)
         #expect(job.outputPath == "/Users/test/Downloads/Example.mp4")
+        #expect(job.speed == nil)
+        #expect(job.eta == nil)
+        #expect(model.history.count == 1)
+        #expect(model.history.first?.status == .completed)
+        #expect(model.history.first?.outputPath == "/Users/test/Downloads/Example.mp4")
         #expect(await runner.commands.count == 1)
+    }
+
+    @Test func draftSurvivesNavigationViewRecreation() {
+        let model = PullDownModel(historyStore: InMemoryHistoryStore())
+        model.downloadDraft.urlInput = "https://www.youtube.com/watch?v=example"
+        model.downloadDraft.mediaKind = .audio
+        model.downloadDraft.options.audioFormat = .flac
+
+        let sameDraft = model.downloadDraft
+
+        #expect(sameDraft.urlInput == "https://www.youtube.com/watch?v=example")
+        #expect(sameDraft.mediaKind == .audio)
+        #expect(sameDraft.options.audioFormat == .flac)
     }
 }

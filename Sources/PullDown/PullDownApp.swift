@@ -23,6 +23,9 @@ struct PullDownApp: App {
         }
         .defaultSize(width: 720, height: 640)
         .windowToolbarStyle(.unified(showsTitle: true))
+        .commands {
+            PullDownCommands()
+        }
 
         MenuBarExtra(isInserted: $menuBarEnabled) {
             MenuBarDownloadView()
