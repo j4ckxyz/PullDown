@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		019DB2F0AC7F695ECB488376 /* YTDLPOutputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9432C9FBD93C8DD1EC0537C /* YTDLPOutputParser.swift */; };
+		08915133F631FCD96F750398 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 754A8B1626F98466E8ABB09B /* Assets.xcassets */; };
 		0BB66DE168438EE7225E413E /* ExecutableLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9260DE07304F96AEE499B5 /* ExecutableLocator.swift */; };
 		316BB42B233CE2C6A5C14FE5 /* YouTubeURLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452026030D393736D5322BF0 /* YouTubeURLParser.swift */; };
 		372CD2B8C3992D522DFBF565 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B309FB61AD4D560DC5448201 /* SettingsView.swift */; };
@@ -63,6 +64,7 @@
 		64B8ADBCB5FFCDEAE7C7C495 /* YTDLPPlaylistParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPPlaylistParserTests.swift; sourceTree = "<group>"; };
 		705F87BA657A964A8E765855 /* YouTubeURLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeURLParserTests.swift; sourceTree = "<group>"; };
 		70F296DB1ADAC1E783C6BC23 /* ProcessRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessRunner.swift; sourceTree = "<group>"; };
+		754A8B1626F98466E8ABB09B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		794B8FD7FA80C1206A01F527 /* PullDownTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PullDownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85C72FF3DC9199C39C7D886B /* MenuBarDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDownloadView.swift; sourceTree = "<group>"; };
 		878EA7D3FC18F0ACD2D1B88D /* GlassComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassComponents.swift; sourceTree = "<group>"; };
@@ -109,6 +111,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		7E5B50C82A39FD6C534EBF8A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				754A8B1626F98466E8ABB09B /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		9E7C503C8A8A6CB8EBD97255 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +137,7 @@
 			children = (
 				8C216916152AF2A01C8CD62D /* PullDownApp.swift */,
 				AB0E8622E372C96A9F71831A /* Core */,
+				7E5B50C82A39FD6C534EBF8A /* Resources */,
 				9E7C503C8A8A6CB8EBD97255 /* UI */,
 			);
 			name = PullDown;
@@ -190,6 +201,7 @@
 			buildConfigurationList = BF7CE4CE4CDB6C6581D5F6EB /* Build configuration list for PBXNativeTarget "PullDown" */;
 			buildPhases = (
 				B3A76C67CC54E6E6729C2D9D /* Sources */,
+				1D3273B075FF117D16445FA7 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -261,6 +273,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D3273B075FF117D16445FA7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08915133F631FCD96F750398 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		378C3BE0A0FB1EBBC8BD48F3 /* Sources */ = {

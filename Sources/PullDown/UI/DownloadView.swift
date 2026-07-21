@@ -34,28 +34,12 @@ struct DownloadView: View {
         .background(Color(nsColor: .windowBackgroundColor))
         .onAppear {
             mediaKind = MediaKind(rawValue: defaultMediaKind) ?? .video
-            urlFieldFocused = isScreenshotMode == false
+            urlFieldFocused = true
 #if DEBUG
-            if ProcessInfo.processInfo.environment["PULLDOWN_SCREENSHOT"] == "1" {
-                urlInput = "https://www.youtube.com/watch?v=xVQrqAxdH9w&list=PLgvFSQ2xChFMcBRbCGOkNMbKxm0oJ2z3H"
-                let names = [
-                    1: "A Kind of Magic",
-                    2: "A Winter's Tale",
-                    3: "Bicycle Race",
-                    4: "Brighton Rock",
-                    5: "Another One Bites the Dust",
-                ]
-                let videos = (1...89).map { index in
-                    PlaylistVideo(
-                        index: index,
-                        videoID: "preview-\(index)",
-                        title: names[index] ?? "Queen instrumental track \(index)",
-                        duration: Double(170 + index)
-                    )
-                }
-                playlistInfo = PlaylistInfo(title: "Queen instrumental", videos: videos)
-                selectedPlaylistIndices = Set(videos.map(\.index))
-                loadedPlaylistURL = detectedPlaylistURL
+            if let previewInput = ProcessInfo.processInfo.environment["PULLDOWN_PREVIEW_URL"],
+               let urls = try? YouTubeURLParser.parse(previewInput),
+               urls.contains(where: YouTubeURLParser.containsPlaylist) {
+                urlInput = urls.map(\.absoluteString).joined(separator: "\n")
             }
 #endif
         }
@@ -65,6 +49,17 @@ struct DownloadView: View {
             selectedPlaylistIndices.removeAll()
             loadedPlaylistURL = nil
         }
+#if DEBUG
+        .task(id: model.toolState.isReady) {
+            guard model.toolState.isReady,
+                  let previewInput = ProcessInfo.processInfo.environment["PULLDOWN_PREVIEW_URL"],
+                  let urls = try? YouTubeURLParser.parse(previewInput),
+                  let playlistURL = urls.first(where: YouTubeURLParser.containsPlaylist),
+                  loadedPlaylistURL != playlistURL,
+                  isLoadingPlaylist == false else { return }
+            loadPlaylist(playlistURL)
+        }
+#endif
     }
 
     private var header: some View {
@@ -341,15 +336,6 @@ struct DownloadView: View {
             && model.isDownloading == false
             && urlInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
             && (playlistInfo == nil || selectedPlaylistIndices.isEmpty == false)
-            && isScreenshotMode == false
-    }
-
-    private var isScreenshotMode: Bool {
-#if DEBUG
-        ProcessInfo.processInfo.environment["PULLDOWN_SCREENSHOT"] == "1"
-#else
-        false
-#endif
     }
 
     private var detectedPlaylistURL: URL? {
@@ -381,7 +367,6 @@ struct DownloadView: View {
     }
 
     private func startDownload() {
-        guard isScreenshotMode == false else { return }
         do {
             let urls = try YouTubeURLParser.parse(urlInput)
             urlInput = urls.map(\.absoluteString).joined(separator: "\n")

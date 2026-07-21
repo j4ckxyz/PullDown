@@ -11,7 +11,10 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "PullDown",
-            path: "Sources/PullDown"
+            path: "Sources/PullDown",
+            resources: [
+                .process("Resources"),
+            ]
         ),
         .testTarget(
             name: "PullDownTests",

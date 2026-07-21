@@ -42,4 +42,29 @@ struct YTDLPPlaylistParserTests {
         #expect(playlist.videos.first?.index == 1)
         #expect(playlist.videos.last?.index == 89)
     }
+
+    @Test func preservesRealTitlesBeyondTheInitialPlaylistEntries() throws {
+        let json = """
+        {
+          "title": "Queen instrumental",
+          "entries": [
+            {"id":"fifteen","title":"Queen instrumental - Friends Will Be Friends","duration":259,"playlist_index":15},
+            {"id":"sixteen","title":"Queen instrumental - Dragon Attack","duration":264,"playlist_index":16},
+            {"id":"seventeen","title":"Queen instrumental - Get Down, Make Love","duration":229,"playlist_index":17},
+            {"id":"eighteen","title":"Queen instrumental - Gimme The Prize (Kurgan's Theme)","duration":255,"playlist_index":18},
+            {"id":"nineteen","title":"Queen instrumental - Hammer To Fall","duration":276,"playlist_index":19}
+          ]
+        }
+        """
+
+        let playlist = try YTDLPPlaylistParser.parse(json)
+
+        #expect(playlist.videos.map(\.title) == [
+            "Queen instrumental - Friends Will Be Friends",
+            "Queen instrumental - Dragon Attack",
+            "Queen instrumental - Get Down, Make Love",
+            "Queen instrumental - Gimme The Prize (Kurgan's Theme)",
+            "Queen instrumental - Hammer To Fall",
+        ])
+    }
 }

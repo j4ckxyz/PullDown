@@ -13,6 +13,7 @@ PullDown is a compact, fully native SwiftUI front end for `yt-dlp`. It downloads
 - Saves to Downloads by default or another folder chosen with the native macOS picker.
 - Shows download progress, speed, ETA and recent activity.
 - Provides the same core download controls from an optional menu-bar item, which can be disabled in Settings.
+- Includes the supplied app artwork as a complete native macOS icon set, from 16 points through the 1024-pixel App Store rendition.
 - Uses Liquid Glass on macOS 26 and newer, with native macOS materials on macOS 15–25.
 
 PullDown is built with SwiftUI, AppKit integration and Foundation. It does not embed a browser or web interface, and it invokes `yt-dlp` directly without a shell.
