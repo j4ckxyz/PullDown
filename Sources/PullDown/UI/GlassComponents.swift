@@ -1,4 +1,47 @@
+import AppKit
 import SwiftUI
+
+private final class PullDownVisualEffectView: NSVisualEffectView {
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        guard let window else { return }
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        window.titlebarAppearsTransparent = true
+    }
+}
+
+private struct PullDownVisualEffectBackground: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = PullDownVisualEffectView()
+        view.material = .underWindowBackground
+        view.blendingMode = .behindWindow
+        view.state = .followsWindowActiveState
+        return view
+    }
+
+    func updateNSView(_ view: NSVisualEffectView, context: Context) {}
+}
+
+struct PullDownWindowBackground: View {
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+
+    var body: some View {
+        Group {
+            if reduceTransparency {
+                Color(nsColor: .windowBackgroundColor)
+            } else {
+                ZStack {
+                    PullDownVisualEffectBackground()
+                    Color(nsColor: .windowBackgroundColor)
+                        .opacity(0.18)
+                }
+            }
+        }
+        .ignoresSafeArea()
+        .accessibilityHidden(true)
+    }
+}
 
 private struct PullDownCardModifier: ViewModifier {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency

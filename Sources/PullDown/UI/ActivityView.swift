@@ -39,6 +39,7 @@ struct ActivityView: View {
                     }
                 }
                 .listStyle(.inset)
+                .scrollContentBackground(.hidden)
             }
         }
         .navigationTitle("Activity")

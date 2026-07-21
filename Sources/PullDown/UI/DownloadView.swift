@@ -24,7 +24,7 @@ struct DownloadView: View {
             .frame(maxWidth: .infinity)
         }
         .defaultScrollAnchor(.top)
-        .background(Color(nsColor: .windowBackgroundColor))
+        .background(.clear)
         .onAppear {
             if draft.didLoadPreferences == false {
                 draft.mediaKind = MediaKind(rawValue: defaultMediaKind) ?? .video

@@ -7,28 +7,33 @@ struct RootView: View {
     @State private var selection: AppSection = .download
 
     var body: some View {
-        VStack(spacing: 0) {
-            switch selection {
-            case .download:
-                DownloadView(draft: model.downloadDraft)
-            case .activity:
-                ActivityView()
-            }
+        ZStack {
+            PullDownWindowBackground()
 
-            Divider()
-            HStack(spacing: 8) {
-                ToolStatusView(state: model.toolState, compact: true)
-                Spacer()
-                if model.toolState.isReady == false {
-                    Button("Install yt-dlp") {
-                        Task { await model.installYTDLP() }
-                    }
-                    .controlSize(.small)
-                    .disabled(model.toolState == .installing || model.toolState == .checking)
+            VStack(spacing: 0) {
+                switch selection {
+                case .download:
+                    DownloadView(draft: model.downloadDraft)
+                case .activity:
+                    ActivityView()
                 }
+
+                Divider()
+                HStack(spacing: 8) {
+                    ToolStatusView(state: model.toolState, compact: true)
+                    Spacer()
+                    if model.toolState.isReady == false {
+                        Button("Install yt-dlp") {
+                            Task { await model.installYTDLP() }
+                        }
+                        .controlSize(.small)
+                        .disabled(model.toolState == .installing || model.toolState == .checking)
+                    }
+                }
+                .padding(.horizontal, 14)
+                .frame(height: 36)
+                .background(.ultraThinMaterial)
             }
-            .padding(.horizontal, 14)
-            .frame(height: 36)
         }
         .alert("PullDown", isPresented: Binding(
             get: { model.errorMessage != nil },
