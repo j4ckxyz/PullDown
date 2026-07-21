@@ -18,10 +18,11 @@ struct PullDownApp: App {
         WindowGroup("PullDown", id: "main") {
             RootView()
                 .environment(model)
-                .frame(minWidth: 620, minHeight: 500)
+                .frame(minWidth: 460, idealWidth: 560, maxWidth: .infinity, minHeight: 520, maxHeight: .infinity)
                 .task { await model.bootstrap() }
         }
-        .defaultSize(width: 720, height: 640)
+        .defaultSize(width: 560, height: 640)
+        .windowResizability(.contentMinSize)
         .windowToolbarStyle(.unified(showsTitle: true))
         .commands {
             PullDownCommands()

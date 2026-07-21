@@ -48,7 +48,7 @@ struct RootView: View {
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
-                .frame(width: 220)
+                .fixedSize()
                 .accessibilityLabel("PullDown section")
             }
             ToolbarItemGroup(placement: .primaryAction) {

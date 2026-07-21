@@ -14,8 +14,8 @@ PullDown is a compact, fully native SwiftUI front end for `yt-dlp`. It downloads
 - Shows download progress and ETA while data is transferring, then a clear finalising state.
 - Keeps a persistent download history with Finder actions, source-link copying, retrying and safe history clearing.
 - Provides the same core download controls from an optional menu-bar item, which can be disabled in Settings.
-- Includes the supplied Icon Composer artwork, with Liquid Glass rendering on macOS 26 and generated compatibility renditions on macOS 15–25.
-- Uses Liquid Glass on macOS 26 and newer, with native macOS materials on macOS 15–25.
+- Includes the supplied Icon Composer artwork, with Liquid Glass rendering on macOS 26 and newer and a generated compatibility rendition on macOS 15.
+- Uses Liquid Glass on macOS 26 and newer, with native macOS materials on macOS 15.
 - Supports Command-1 for New Download, Command-2 for Activity and Command-Return to start with the current settings.
 
 PullDown is built with SwiftUI, AppKit integration and Foundation. It does not embed a browser or web interface, and it invokes `yt-dlp` directly without a shell.

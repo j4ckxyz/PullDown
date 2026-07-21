@@ -57,11 +57,15 @@ struct MenuBarDownloadView: View {
 
                 if let job = model.jobs.first, model.isDownloading {
                     VStack(alignment: .leading, spacing: 6) {
-                        ProgressView(value: job.progress)
+                        ProgressView(value: job.overallProgress)
                         HStack {
-                            Text(job.phase.title)
+                            if let count = job.playlistCount, let index = job.playlistIndex {
+                                Text("Item \(index) of \(count)")
+                            } else {
+                                Text(job.phase.title)
+                            }
                             Spacer()
-                            Text(job.progress.formatted(.percent.precision(.fractionLength(0))))
+                            Text(job.overallProgress.formatted(.percent.precision(.fractionLength(0))))
                         }
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(.secondary)
