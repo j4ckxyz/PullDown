@@ -65,7 +65,7 @@ struct RootView: View {
                 } label: {
                     Image(systemName: "folder")
                 }
-                .accessibilityLabel("Open Downloads folder") // [VERIFY] confirm label matches intent
+                .accessibilityLabel("Open Downloads folder")
                 .accessibilityInputLabels(["Open Downloads folder", "Downloads"])
 
                 Button {
@@ -73,7 +73,7 @@ struct RootView: View {
                 } label: {
                     Image(systemName: "arrow.clockwise")
                 }
-                .accessibilityLabel("Check yt-dlp again") // [VERIFY] confirm label matches intent
+                .accessibilityLabel("Check yt-dlp again")
                 .accessibilityInputLabels(["Check yt-dlp again", "Refresh"])
             }
         }

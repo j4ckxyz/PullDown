@@ -30,7 +30,7 @@ struct MenuBarDownloadView: View {
                     Button(action: pasteURL) {
                         Image(systemName: "doc.on.clipboard")
                     }
-                    .accessibilityLabel("Paste YouTube URL") // [VERIFY] confirm label matches intent
+                    .accessibilityLabel("Paste YouTube URL")
                     .accessibilityInputLabels(["Paste YouTube URL", "Paste"])
                 }
 

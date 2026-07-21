@@ -68,15 +68,8 @@ struct DownloadView: View {
     }
 
     private var header: some View {
-        HStack {
-            Text("New download")
-                .font(.title2.weight(.semibold))
-            Spacer()
-            if model.toolState.isReady {
-                ToolStatusView(state: model.toolState, compact: true)
-            }
-        }
-        .accessibilityElement(children: .combine)
+        Text("New download")
+            .font(.title2.weight(.semibold))
     }
 
     private var dependencyCard: some View {
