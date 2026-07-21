@@ -101,7 +101,7 @@ jobs:
           test "$(plutil -extract SURequireSignedFeed raw "$APP/Contents/Info.plist")" = "true"
           test -d "$APP/Contents/Frameworks/Sparkle.framework"
           if [ "${{ matrix.archive }}" = "PullDown-Universal.zip" ]; then
-            lipo -verify_arch arm64 x86_64 "$APP/Contents/MacOS/PullDown"
+            lipo "$APP/Contents/MacOS/PullDown" -verify_arch arm64 x86_64
           fi
           codesign --force --deep --sign - "$APP"
           codesign --verify --deep --strict "$APP"

@@ -4,7 +4,7 @@
 
 - PullDown uses stable Semantic Versioning in `X.Y.Z` form. The source of truth is `VERSION`.
 - Keep `MARKETING_VERSION` in `project.yml` identical to `VERSION`. Run `Scripts/validate-version.sh` before every build or pull request.
-- Increment the version before every merge to `main`. Use a patch bump for compatible fixes, a minor bump for compatible features, and a major bump for breaking changes. Never reuse or decrease a published version.
+- Increment the version before every release-bearing merge to `main`. Use a patch bump for compatible fixes, a minor bump for compatible features, and a major bump for breaking changes. A correction to a failed, unpublished workflow run may retain its version; never reuse or decrease a published version.
 - `CFBundleVersion` is the monotonically increasing GitHub Actions run number. Do not replace it with the marketing version or manually decrease it. Sparkle uses this build number to order updates.
 - A push to `main` publishes GitHub Release `vX.Y.Z`. If that tag already exists, the workflow must fail instead of overwriting the release.
 
