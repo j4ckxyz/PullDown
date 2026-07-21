@@ -164,6 +164,10 @@ struct DownloadJob: Identifiable, Equatable, Sendable {
     var speed: String?
     var eta: String?
     var outputPath: String?
+    var playlistIndex: Int?
+    var playlistCount: Int?
+    var attemptedItemCount = 0
+    var failedItemCount = 0
 
     init(request: DownloadRequest) {
         id = UUID()
@@ -171,6 +175,25 @@ struct DownloadJob: Identifiable, Equatable, Sendable {
         createdAt = Date()
         phase = .queued
         progress = 0
+    }
+
+    /// Overall progress across a playlist: completed items plus the fraction of
+    /// the current item. Falls back to the single-file progress when this is not
+    /// a playlist download.
+    var overallProgress: Double {
+        guard let playlistCount, let playlistIndex, playlistCount > 0 else { return progress }
+        let completed = Double(playlistIndex - 1)
+        return min(max((completed + progress) / Double(playlistCount), 0), 1)
+    }
+
+    /// A human summary when some playlist items were skipped, e.g.
+    /// "10 of 15 downloaded · 5 skipped". Nil when nothing was skipped.
+    var completionSummary: String? {
+        guard failedItemCount > 0 else { return nil }
+        let total = playlistCount ?? attemptedItemCount
+        guard total > 0 else { return nil }
+        let succeeded = max(total - failedItemCount, 0)
+        return "\(succeeded) of \(total) downloaded · \(failedItemCount) skipped"
     }
 }
 
@@ -210,6 +233,7 @@ struct DownloadHistoryItem: Identifiable, Equatable, Codable, Sendable {
     let status: DownloadHistoryStatus
     let outputPath: String?
     let failureMessage: String?
+    let noteMessage: String?
 
     init?(job: DownloadJob, finishedAt: Date = Date()) {
         let status: DownloadHistoryStatus
@@ -235,6 +259,7 @@ struct DownloadHistoryItem: Identifiable, Equatable, Codable, Sendable {
         self.status = status
         outputPath = job.outputPath
         self.failureMessage = failureMessage
+        noteMessage = status == .completed ? job.completionSummary : nil
     }
 
     var displayName: String {
@@ -291,10 +316,126 @@ enum PullDownError: LocalizedError, Equatable, Sendable {
     }
 }
 
+struct DownloadPreset: Identifiable, Codable, Equatable, Sendable {
+    var id: UUID
+    var name: String
+    var mediaKind: MediaKind
+    var options: DownloadOptions
+    var emoji: String?
+    var tintHex: String?
+    var isBuiltIn: Bool
+
+    init(
+        id: UUID = UUID(),
+        name: String,
+        mediaKind: MediaKind,
+        options: DownloadOptions,
+        emoji: String? = nil,
+        tintHex: String? = nil,
+        isBuiltIn: Bool = false
+    ) {
+        self.id = id
+        self.name = name
+        self.mediaKind = mediaKind
+        self.options = options
+        self.emoji = emoji
+        self.tintHex = tintHex
+        self.isBuiltIn = isBuiltIn
+    }
+
+    /// The emoji to show, falling back to a media-kind default.
+    var displayEmoji: String {
+        if let emoji, emoji.isEmpty == false { return emoji }
+        return mediaKind == .video ? "🎬" : "🎵"
+    }
+}
+
+extension DownloadPreset {
+    /// Stable identifiers so built-ins can be recognised across launches and
+    /// restored without duplicating.
+    static let builtIns: [DownloadPreset] = [
+        DownloadPreset(
+            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000A1")!,
+            name: "Best video (MP4)",
+            mediaKind: .video,
+            options: {
+                var options = DownloadOptions()
+                options.videoQuality = .best
+                options.videoContainer = .mp4
+                return options
+            }(),
+            emoji: "🎬",
+            tintHex: "#FF6B4A",
+            isBuiltIn: true
+        ),
+        DownloadPreset(
+            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000A2")!,
+            name: "1080p MP4",
+            mediaKind: .video,
+            options: {
+                var options = DownloadOptions()
+                options.videoQuality = .fullHD
+                options.videoContainer = .mp4
+                return options
+            }(),
+            emoji: "📺",
+            tintHex: "#3B82F6",
+            isBuiltIn: true
+        ),
+        DownloadPreset(
+            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000A3")!,
+            name: "Video + subtitles",
+            mediaKind: .video,
+            options: {
+                var options = DownloadOptions()
+                options.videoQuality = .best
+                options.videoContainer = .mp4
+                options.includeSubtitles = true
+                return options
+            }(),
+            emoji: "💬",
+            tintHex: "#8B5CF6",
+            isBuiltIn: true
+        ),
+        DownloadPreset(
+            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000B1")!,
+            name: "MP3 audio (320 kbps)",
+            mediaKind: .audio,
+            options: {
+                var options = DownloadOptions()
+                options.audioFormat = .mp3
+                options.audioQuality = .kbps320
+                return options
+            }(),
+            emoji: "🎧",
+            tintHex: "#10B981",
+            isBuiltIn: true
+        ),
+        DownloadPreset(
+            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000B2")!,
+            name: "M4A audio (best)",
+            mediaKind: .audio,
+            options: {
+                var options = DownloadOptions()
+                options.audioFormat = .m4a
+                options.audioQuality = .best
+                return options
+            }(),
+            emoji: "🎵",
+            tintHex: "#F59E0B",
+            isBuiltIn: true
+        ),
+    ]
+}
+
 enum AppPreferenceKeys {
     static let menuBarEnabled = "menuBarEnabled"
     static let destinationPath = "destinationPath"
     static let defaultMediaKind = "defaultMediaKind"
+    static let rememberedVideoOptions = "rememberedOptions.video"
+    static let rememberedAudioOptions = "rememberedOptions.audio"
+    static let presets = "downloadPresets"
+    static let didSeedPresets = "didSeedPresets"
 }
 
 enum AppDefaults {

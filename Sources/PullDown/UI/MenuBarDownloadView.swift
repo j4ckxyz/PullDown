@@ -4,6 +4,7 @@ import SwiftUI
 struct MenuBarDownloadView: View {
     @Environment(PullDownModel.self) private var model
     @Environment(\.openWindow) private var openWindow
+    @StateObject private var updater = UpdaterManager.shared
     @AppStorage(AppPreferenceKeys.destinationPath) private var destinationPath = AppDefaults.downloadsDirectory.path
     @AppStorage(AppPreferenceKeys.defaultMediaKind) private var defaultMediaKind = MediaKind.video.rawValue
 
@@ -57,11 +58,15 @@ struct MenuBarDownloadView: View {
 
                 if let job = model.jobs.first, model.isDownloading {
                     VStack(alignment: .leading, spacing: 6) {
-                        ProgressView(value: job.progress)
+                        ProgressView(value: job.overallProgress)
                         HStack {
-                            Text(job.phase.title)
+                            if let count = job.playlistCount, let index = job.playlistIndex {
+                                Text("Item \(index) of \(count)")
+                            } else {
+                                Text(job.phase.title)
+                            }
                             Spacer()
-                            Text(job.progress.formatted(.percent.precision(.fractionLength(0))))
+                            Text(job.overallProgress.formatted(.percent.precision(.fractionLength(0))))
                         }
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(.secondary)
@@ -95,6 +100,11 @@ struct MenuBarDownloadView: View {
             Divider()
 
             HStack {
+                Button("Check for Updates…") {
+                    updater.checkForUpdates()
+                }
+                .buttonStyle(.plain)
+                .disabled(!updater.canCheckForUpdates)
                 SettingsLink {
                     Label("Settings", systemImage: "gearshape")
                 }

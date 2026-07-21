@@ -14,9 +14,10 @@ PullDown is a compact, fully native SwiftUI front end for `yt-dlp`. It downloads
 - Shows download progress and ETA while data is transferring, then a clear finalising state.
 - Keeps a persistent download history with Finder actions, source-link copying, retrying and safe history clearing.
 - Provides the same core download controls from an optional menu-bar item, which can be disabled in Settings.
-- Includes the supplied Icon Composer artwork, with Liquid Glass rendering on macOS 26 and generated compatibility renditions on macOS 15–25.
-- Uses Liquid Glass on macOS 26 and newer, with native macOS materials on macOS 15–25.
+- Includes the supplied Icon Composer artwork, with Liquid Glass rendering on macOS 26 and newer and a generated compatibility rendition on macOS 15.
+- Uses Liquid Glass on macOS 26 and newer, with native macOS materials on macOS 15.
 - Supports Command-1 for New Download, Command-2 for Activity and Command-Return to start with the current settings.
+- Checks GitHub Releases for signed updates and presents native options to install, postpone or skip a version.
 
 PullDown is built with SwiftUI, AppKit integration and Foundation. It does not embed a browser or web interface, and it invokes `yt-dlp` directly without a shell.
 
@@ -29,7 +30,7 @@ PullDown is built with SwiftUI, AppKit integration and Foundation. It does not e
 
 ## Install
 
-Download the appropriate ZIP from the [latest GitHub Release](https://github.com/j4ckxyz/PullDown/releases/latest): Apple Silicon for M-series Macs, or Intel for 64-bit Intel Macs. Unzip it, move PullDown to Applications and open it. The automatic builds are ad-hoc signed rather than notarised, so on first launch you may need to Control-click the app, choose Open and confirm.
+Download the appropriate ZIP from the [latest GitHub Release](https://github.com/j4ckxyz/PullDown/releases/latest): Apple Silicon for M-series Macs, or Intel for 64-bit Intel Macs. Unzip it, move PullDown to Applications and open it. PullDown then checks GitHub for signed updates automatically; this can be disabled in Settings. The automatic builds are ad-hoc signed rather than notarised, so on first launch you may need to Control-click the app, choose Open and confirm.
 
 To build from source instead, clone the repository with:
 
@@ -39,7 +40,7 @@ gh repo clone j4ckxyz/PullDown
 
 Open `PullDown.xcodeproj` in Xcode, choose the PullDown scheme, then Run. PullDown is not sandboxed because it must discover package-manager executables and run `yt-dlp` outside the app container.
 
-Every push to `main` builds separate Apple Silicon and Intel applications on the matching GitHub-hosted Mac runner, then publishes them with SHA-256 checksums in a new GitHub Release.
+Every push to `main` must increment the semantic version in `VERSION`. GitHub Actions builds Apple Silicon, Intel and universal applications, signs the Sparkle appcast, and publishes release `vX.Y.Z` with SHA-256 checksums. The universal archive supplies in-app updates for both Mac architectures.
 
 ## URL handling
 

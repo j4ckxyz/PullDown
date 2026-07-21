@@ -15,6 +15,13 @@ struct YTDLPOutputParserTests {
         #expect(result.isPostProcessing)
     }
 
+    @Test func parsesPlaylistItemPosition() throws {
+        let result = try #require(YTDLPOutputParser.parse("[download] Downloading item 3 of 12"))
+        #expect(result.playlistIndex == 3)
+        #expect(result.playlistCount == 12)
+        #expect(result.progress == nil)
+    }
+
     @Test func ignoresUnrelatedLogLine() {
         #expect(YTDLPOutputParser.parse("Loading cookies") == nil)
     }

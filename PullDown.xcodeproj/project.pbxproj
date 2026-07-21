@@ -10,27 +10,35 @@
 		019DB2F0AC7F695ECB488376 /* YTDLPOutputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9432C9FBD93C8DD1EC0537C /* YTDLPOutputParser.swift */; };
 		0BB66DE168438EE7225E413E /* ExecutableLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9260DE07304F96AEE499B5 /* ExecutableLocator.swift */; };
 		13F554500ADF38F52687581F /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F316FEAB9076EC54DA2703 /* AppCommands.swift */; };
+		1C7E655E200D1458F238F0A6 /* UpdaterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B7CAEA8CCCE1874E0BA358 /* UpdaterManager.swift */; };
 		2024B4BF0890C61DC0736B3F /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 903E905BF4C61FDA52E04E8E /* AppIcon.icon */; };
 		316BB42B233CE2C6A5C14FE5 /* YouTubeURLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452026030D393736D5322BF0 /* YouTubeURLParser.swift */; };
 		372CD2B8C3992D522DFBF565 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B309FB61AD4D560DC5448201 /* SettingsView.swift */; };
 		423409AFF9FBE355B1D286F9 /* YTDLPInstallerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9398ECCE9B8D1D9174997 /* YTDLPInstallerTests.swift */; };
 		6842D138047A6ABBAACB8804 /* YTDLPCommandBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F4FD6F8226296BD5BD957F /* YTDLPCommandBuilderTests.swift */; };
+		6A2099B59C75663F9CEAA28C /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA76D69ABADDE3EC87243D7 /* ColorHex.swift */; };
 		71D096D98A1CBEF3947375D2 /* DownloadHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D38D884D9E1F5CC812381E /* DownloadHistoryStore.swift */; };
 		73295D1F3E9B41997494926B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90B9DD6294D31567CEB57F9 /* RootView.swift */; };
+		761AC73116FFBB7742A7F50C /* AppPreferencesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057A21E6BE79C672E0CD3E2F /* AppPreferencesTests.swift */; };
 		7622545B52403ED5F2B55C81 /* PullDownModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584E8682491E13C68441ECF4 /* PullDownModelTests.swift */; };
 		7858824FD8B878B4C3950A06 /* PullDownUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980159A329D17192F1AEB60D /* PullDownUITests.swift */; };
 		7A8885D49B2FFC8473B0C788 /* ExecutableLocatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166DFFF3935310B7CF296B04 /* ExecutableLocatorTests.swift */; };
 		81D303F0EE60C1C4614F43C1 /* ProcessRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F296DB1ADAC1E783C6BC23 /* ProcessRunner.swift */; };
+		86B402D751A48F2F033752A2 /* YTDLPErrorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D7B4D1413045A525BD78DB /* YTDLPErrorFormatter.swift */; };
 		8AA22E362AF94E89B580C0A0 /* YTDLPCommandBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2183EF42C270380B04950365 /* YTDLPCommandBuilder.swift */; };
+		9391DB2868B43D3B7432FE60 /* YTDLPErrorFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960F429E70149B66C963150B /* YTDLPErrorFormatterTests.swift */; };
 		9C86AF2148D3574E67EF3298 /* YTDLPPlaylistParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B8ADBCB5FFCDEAE7C7C495 /* YTDLPPlaylistParserTests.swift */; };
 		A163979068210537B108ED92 /* YTDLPOutputParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A28D224819D817C0A78EF815 /* YTDLPOutputParserTests.swift */; };
 		A17D10662D7A250B16736F99 /* PullDownModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3956079AD0D36F1E635A074D /* PullDownModel.swift */; };
 		A404ADECB650FC4D1B911427 /* MenuBarDownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C72FF3DC9199C39C7D886B /* MenuBarDownloadView.swift */; };
 		AE31F00EEDAC2B6445B73A3A /* YouTubeURLParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705F87BA657A964A8E765855 /* YouTubeURLParserTests.swift */; };
+		B17DBB8B6B3CE0133460B676 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 5CDC4C3AB2DC5CC118CA69D0 /* Sparkle */; };
 		B3B0B4146B1FEF45D963C733 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E24A7DC66067025CC002D6 /* Models.swift */; };
 		C531D2A63D19FDF065ED2194 /* DownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1DD2112179F29547CB16F /* DownloadView.swift */; };
 		C9E9D150A11250A68BC8C9A7 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A422F27FFDE75B668DDA04 /* ActivityView.swift */; };
 		CBB5792756C58A95CC294670 /* YTDLPInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E62BB11405355CCFDBFFC589 /* YTDLPInstaller.swift */; };
+		CC88DE6678EAF0F11D91E616 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53372DD6F3612C4A8C85A423 /* AppPreferences.swift */; };
+		D1DC6E3BD13C78210CD28403 /* PresetEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD9D554BC1F83B0F29F60A8 /* PresetEditor.swift */; };
 		D30DA0BFD957F677E0F14377 /* YTDLPPlaylistParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC36D099AB2D9F88CA21E8D /* YTDLPPlaylistParser.swift */; };
 		DA6F52EF5DF5DA5370CABC71 /* PullDownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C216916152AF2A01C8CD62D /* PullDownApp.swift */; };
 		DBF70879B14D9072FC10A609 /* DownloadHistoryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931B9266DA45DE0C8B6DEF95 /* DownloadHistoryStoreTests.swift */; };
@@ -55,14 +63,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		057A21E6BE79C672E0CD3E2F /* AppPreferencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferencesTests.swift; sourceTree = "<group>"; };
 		0E9260DE07304F96AEE499B5 /* ExecutableLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutableLocator.swift; sourceTree = "<group>"; };
 		166DFFF3935310B7CF296B04 /* ExecutableLocatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutableLocatorTests.swift; sourceTree = "<group>"; };
 		2183EF42C270380B04950365 /* YTDLPCommandBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPCommandBuilder.swift; sourceTree = "<group>"; };
+		23D7B4D1413045A525BD78DB /* YTDLPErrorFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPErrorFormatter.swift; sourceTree = "<group>"; };
 		35D9398ECCE9B8D1D9174997 /* YTDLPInstallerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPInstallerTests.swift; sourceTree = "<group>"; };
+		38B7CAEA8CCCE1874E0BA358 /* UpdaterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdaterManager.swift; sourceTree = "<group>"; };
 		3956079AD0D36F1E635A074D /* PullDownModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownModel.swift; sourceTree = "<group>"; };
 		452026030D393736D5322BF0 /* YouTubeURLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeURLParser.swift; sourceTree = "<group>"; };
 		50CDA7968588C3715FB0967F /* PullDownUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PullDownUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51F4FD6F8226296BD5BD957F /* YTDLPCommandBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPCommandBuilderTests.swift; sourceTree = "<group>"; };
+		53372DD6F3612C4A8C85A423 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
 		584E8682491E13C68441ECF4 /* PullDownModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownModelTests.swift; sourceTree = "<group>"; };
 		64B8ADBCB5FFCDEAE7C7C495 /* YTDLPPlaylistParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPPlaylistParserTests.swift; sourceTree = "<group>"; };
 		705F87BA657A964A8E765855 /* YouTubeURLParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeURLParserTests.swift; sourceTree = "<group>"; };
@@ -71,13 +83,16 @@
 		85C72FF3DC9199C39C7D886B /* MenuBarDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarDownloadView.swift; sourceTree = "<group>"; };
 		878EA7D3FC18F0ACD2D1B88D /* GlassComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassComponents.swift; sourceTree = "<group>"; };
 		8C216916152AF2A01C8CD62D /* PullDownApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownApp.swift; sourceTree = "<group>"; };
+		8CA76D69ABADDE3EC87243D7 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
 		903E905BF4C61FDA52E04E8E /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		92A1DD2112179F29547CB16F /* DownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadView.swift; sourceTree = "<group>"; };
 		931B9266DA45DE0C8B6DEF95 /* DownloadHistoryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadHistoryStoreTests.swift; sourceTree = "<group>"; };
+		960F429E70149B66C963150B /* YTDLPErrorFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPErrorFormatterTests.swift; sourceTree = "<group>"; };
 		980159A329D17192F1AEB60D /* PullDownUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownUITests.swift; sourceTree = "<group>"; };
 		A28D224819D817C0A78EF815 /* YTDLPOutputParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPOutputParserTests.swift; sourceTree = "<group>"; };
 		B309FB61AD4D560DC5448201 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B90B9DD6294D31567CEB57F9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		BBD9D554BC1F83B0F29F60A8 /* PresetEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetEditor.swift; sourceTree = "<group>"; };
 		BD88592B4B801B71E3BCAEA7 /* PullDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PullDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D38D884D9E1F5CC812381E /* DownloadHistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadHistoryStore.swift; sourceTree = "<group>"; };
 		D5E24A7DC66067025CC002D6 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -87,6 +102,17 @@
 		F9432C9FBD93C8DD1EC0537C /* YTDLPOutputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPOutputParser.swift; sourceTree = "<group>"; };
 		FFC36D099AB2D9F88CA21E8D /* YTDLPPlaylistParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTDLPPlaylistParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C540C8B20AFBD14F315E3742 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B17DBB8B6B3CE0133460B676 /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		370D5721D239B87336A1C004 /* UITests */ = {
@@ -130,9 +156,11 @@
 			children = (
 				E9A422F27FFDE75B668DDA04 /* ActivityView.swift */,
 				E8F316FEAB9076EC54DA2703 /* AppCommands.swift */,
+				8CA76D69ABADDE3EC87243D7 /* ColorHex.swift */,
 				92A1DD2112179F29547CB16F /* DownloadView.swift */,
 				878EA7D3FC18F0ACD2D1B88D /* GlassComponents.swift */,
 				85C72FF3DC9199C39C7D886B /* MenuBarDownloadView.swift */,
+				BBD9D554BC1F83B0F29F60A8 /* PresetEditor.swift */,
 				B90B9DD6294D31567CEB57F9 /* RootView.swift */,
 				B309FB61AD4D560DC5448201 /* SettingsView.swift */,
 			);
@@ -154,13 +182,16 @@
 		AB0E8622E372C96A9F71831A /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				53372DD6F3612C4A8C85A423 /* AppPreferences.swift */,
 				C5D38D884D9E1F5CC812381E /* DownloadHistoryStore.swift */,
 				0E9260DE07304F96AEE499B5 /* ExecutableLocator.swift */,
 				D5E24A7DC66067025CC002D6 /* Models.swift */,
 				70F296DB1ADAC1E783C6BC23 /* ProcessRunner.swift */,
 				3956079AD0D36F1E635A074D /* PullDownModel.swift */,
+				38B7CAEA8CCCE1874E0BA358 /* UpdaterManager.swift */,
 				452026030D393736D5322BF0 /* YouTubeURLParser.swift */,
 				2183EF42C270380B04950365 /* YTDLPCommandBuilder.swift */,
+				23D7B4D1413045A525BD78DB /* YTDLPErrorFormatter.swift */,
 				E62BB11405355CCFDBFFC589 /* YTDLPInstaller.swift */,
 				F9432C9FBD93C8DD1EC0537C /* YTDLPOutputParser.swift */,
 				FFC36D099AB2D9F88CA21E8D /* YTDLPPlaylistParser.swift */,
@@ -171,11 +202,13 @@
 		EF261426375076D0DF127D30 /* PullDownTests */ = {
 			isa = PBXGroup;
 			children = (
+				057A21E6BE79C672E0CD3E2F /* AppPreferencesTests.swift */,
 				931B9266DA45DE0C8B6DEF95 /* DownloadHistoryStoreTests.swift */,
 				166DFFF3935310B7CF296B04 /* ExecutableLocatorTests.swift */,
 				584E8682491E13C68441ECF4 /* PullDownModelTests.swift */,
 				705F87BA657A964A8E765855 /* YouTubeURLParserTests.swift */,
 				51F4FD6F8226296BD5BD957F /* YTDLPCommandBuilderTests.swift */,
+				960F429E70149B66C963150B /* YTDLPErrorFormatterTests.swift */,
 				35D9398ECCE9B8D1D9174997 /* YTDLPInstallerTests.swift */,
 				A28D224819D817C0A78EF815 /* YTDLPOutputParserTests.swift */,
 				64B8ADBCB5FFCDEAE7C7C495 /* YTDLPPlaylistParserTests.swift */,
@@ -211,6 +244,7 @@
 			buildPhases = (
 				B3A76C67CC54E6E6729C2D9D /* Sources */,
 				1D3273B075FF117D16445FA7 /* Resources */,
+				C540C8B20AFBD14F315E3742 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -218,6 +252,7 @@
 			);
 			name = PullDown;
 			packageProductDependencies = (
+				5CDC4C3AB2DC5CC118CA69D0 /* Sparkle */,
 			);
 			productName = PullDown;
 			productReference = BD88592B4B801B71E3BCAEA7 /* PullDown.app */;
@@ -271,6 +306,9 @@
 			);
 			mainGroup = 6F094D22F7A2A99D75E36911;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				143CB228E9B29F34083479C2 /* XCRemoteSwiftPackageReference "Sparkle" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3E7954FEBD49014000AABF3E /* Products */;
 			projectDirPath = "";
@@ -309,18 +347,23 @@
 			files = (
 				C9E9D150A11250A68BC8C9A7 /* ActivityView.swift in Sources */,
 				13F554500ADF38F52687581F /* AppCommands.swift in Sources */,
+				CC88DE6678EAF0F11D91E616 /* AppPreferences.swift in Sources */,
+				6A2099B59C75663F9CEAA28C /* ColorHex.swift in Sources */,
 				71D096D98A1CBEF3947375D2 /* DownloadHistoryStore.swift in Sources */,
 				C531D2A63D19FDF065ED2194 /* DownloadView.swift in Sources */,
 				0BB66DE168438EE7225E413E /* ExecutableLocator.swift in Sources */,
 				F2A3A5F7C51341117D214630 /* GlassComponents.swift in Sources */,
 				A404ADECB650FC4D1B911427 /* MenuBarDownloadView.swift in Sources */,
 				B3B0B4146B1FEF45D963C733 /* Models.swift in Sources */,
+				D1DC6E3BD13C78210CD28403 /* PresetEditor.swift in Sources */,
 				81D303F0EE60C1C4614F43C1 /* ProcessRunner.swift in Sources */,
 				DA6F52EF5DF5DA5370CABC71 /* PullDownApp.swift in Sources */,
 				A17D10662D7A250B16736F99 /* PullDownModel.swift in Sources */,
 				73295D1F3E9B41997494926B /* RootView.swift in Sources */,
 				372CD2B8C3992D522DFBF565 /* SettingsView.swift in Sources */,
+				1C7E655E200D1458F238F0A6 /* UpdaterManager.swift in Sources */,
 				8AA22E362AF94E89B580C0A0 /* YTDLPCommandBuilder.swift in Sources */,
+				86B402D751A48F2F033752A2 /* YTDLPErrorFormatter.swift in Sources */,
 				CBB5792756C58A95CC294670 /* YTDLPInstaller.swift in Sources */,
 				019DB2F0AC7F695ECB488376 /* YTDLPOutputParser.swift in Sources */,
 				D30DA0BFD957F677E0F14377 /* YTDLPPlaylistParser.swift in Sources */,
@@ -332,10 +375,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				761AC73116FFBB7742A7F50C /* AppPreferencesTests.swift in Sources */,
 				DBF70879B14D9072FC10A609 /* DownloadHistoryStoreTests.swift in Sources */,
 				7A8885D49B2FFC8473B0C788 /* ExecutableLocatorTests.swift in Sources */,
 				7622545B52403ED5F2B55C81 /* PullDownModelTests.swift in Sources */,
 				6842D138047A6ABBAACB8804 /* YTDLPCommandBuilderTests.swift in Sources */,
+				9391DB2868B43D3B7432FE60 /* YTDLPErrorFormatterTests.swift in Sources */,
 				423409AFF9FBE355B1D286F9 /* YTDLPInstallerTests.swift in Sources */,
 				A163979068210537B108ED92 /* YTDLPOutputParserTests.swift in Sources */,
 				9C86AF2148D3574E67EF3298 /* YTDLPPlaylistParserTests.swift in Sources */,
@@ -411,7 +456,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -425,7 +470,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -462,6 +507,13 @@
 				INFOPLIST_KEY_CFBundleDisplayName = PullDown;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
+				INFOPLIST_KEY_SUAutomaticallyUpdate = NO;
+				INFOPLIST_KEY_SUEnableAutomaticChecks = YES;
+				INFOPLIST_KEY_SUEnableInstallerLauncherService = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://github.com/j4ckxyz/PullDown/releases/latest/download/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "0+4+aMJztf+1K8h1yhVyuqlQVsNAzqFGStZwL8RPnFE=";
+				INFOPLIST_KEY_SURequireSignedFeed = YES;
+				INFOPLIST_KEY_SUVerifyUpdateBeforeExtraction = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -525,7 +577,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -545,7 +597,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.0;
+				MARKETING_VERSION = 0.3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -583,6 +635,13 @@
 				INFOPLIST_KEY_CFBundleDisplayName = PullDown;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026";
+				INFOPLIST_KEY_SUAutomaticallyUpdate = NO;
+				INFOPLIST_KEY_SUEnableAutomaticChecks = YES;
+				INFOPLIST_KEY_SUEnableInstallerLauncherService = YES;
+				INFOPLIST_KEY_SUFeedURL = "https://github.com/j4ckxyz/PullDown/releases/latest/download/appcast.xml";
+				INFOPLIST_KEY_SUPublicEDKey = "0+4+aMJztf+1K8h1yhVyuqlQVsNAzqFGStZwL8RPnFE=";
+				INFOPLIST_KEY_SURequireSignedFeed = YES;
+				INFOPLIST_KEY_SUVerifyUpdateBeforeExtraction = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -634,6 +693,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		143CB228E9B29F34083479C2 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5CDC4C3AB2DC5CC118CA69D0 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 143CB228E9B29F34083479C2 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8215D37AC0D35B7B8615BC6A /* Project object */;
 }

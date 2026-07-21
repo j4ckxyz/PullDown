@@ -8,6 +8,7 @@ struct DownloadView: View {
 
     @Bindable var draft: DownloadDraft
     @FocusState private var urlFieldFocused: Bool
+    @State private var isSavingPreset = false
 
     var body: some View {
         ScrollView {
@@ -28,6 +29,7 @@ struct DownloadView: View {
         .onAppear {
             if draft.didLoadPreferences == false {
                 draft.mediaKind = MediaKind(rawValue: defaultMediaKind) ?? .video
+                draft.options = model.rememberedOptions(for: draft.mediaKind)
                 draft.didLoadPreferences = true
             }
             urlFieldFocused = true
@@ -38,6 +40,48 @@ struct DownloadView: View {
             draft.selectedPlaylistIndices.removeAll()
             draft.loadedPlaylistURL = nil
         }
+        .onChange(of: draft.options) { _, newValue in
+            guard draft.didLoadPreferences else { return }
+            model.rememberOptions(newValue, for: draft.mediaKind)
+        }
+        .sheet(isPresented: $isSavingPreset) {
+            PresetEditorSheet(
+                title: "Save preset",
+                mediaKind: draft.mediaKind,
+                name: activePreset?.name ?? "",
+                emoji: activePreset?.displayEmoji ?? "",
+                tintHex: activePreset?.tintHex
+            ) { name, emoji, tintHex in
+                model.savePreset(
+                    name: name,
+                    kind: draft.mediaKind,
+                    options: draft.options,
+                    emoji: emoji,
+                    tintHex: tintHex
+                )
+            }
+        }
+    }
+
+    private var mediaKindBinding: Binding<MediaKind> {
+        Binding(
+            get: { draft.mediaKind },
+            set: { newKind in
+                guard newKind != draft.mediaKind else { return }
+                model.rememberOptions(draft.options, for: draft.mediaKind)
+                draft.mediaKind = newKind
+                draft.options = model.rememberedOptions(for: newKind)
+                defaultMediaKind = newKind.rawValue
+            }
+        )
+    }
+
+    private func applyPreset(_ preset: DownloadPreset) {
+        model.rememberOptions(draft.options, for: draft.mediaKind)
+        draft.mediaKind = preset.mediaKind
+        draft.options = preset.options
+        defaultMediaKind = preset.mediaKind.rawValue
+        model.rememberOptions(preset.options, for: preset.mediaKind)
     }
 
     private var header: some View {
@@ -90,7 +134,7 @@ struct DownloadView: View {
                     .accessibilityIdentifier("urlEditor")
             }
 
-            Picker("Download as", selection: $draft.mediaKind) {
+            Picker("Download as", selection: mediaKindBinding) {
                 ForEach(MediaKind.allCases) { kind in
                     Label(kind.title, systemImage: kind.symbol).tag(kind)
                 }
@@ -98,16 +142,27 @@ struct DownloadView: View {
             .pickerStyle(.segmented)
             .accessibilityIdentifier("mediaKindPicker")
 
-            qualityControls
+            presetsBar
             playlistControls
             destinationRow
 
-            DisclosureGroup("Advanced options", isExpanded: $draft.showsAdvanced) {
-                advancedOptions
-                    .padding(.top, 12)
+            DisclosureGroup("Format & advanced options", isExpanded: $draft.showsAdvanced) {
+                VStack(alignment: .leading, spacing: 14) {
+                    qualityControls
+                    advancedOptions
+                }
+                .padding(.top, 12)
             }
 
             HStack {
+                Button {
+                    isSavingPreset = true
+                } label: {
+                    Label("Save as preset…", systemImage: "square.and.arrow.down.on.square")
+                }
+                .buttonStyle(.borderless)
+                .accessibilityIdentifier("savePresetButton")
+
                 if model.ffmpegExecutable == nil, needsFFmpeg {
                     Label("FFmpeg is recommended for conversion and merging", systemImage: "info.circle")
                         .font(.caption)
@@ -128,6 +183,60 @@ struct DownloadView: View {
             }
         }
         .pullDownCard(cornerRadius: 16, padding: 16)
+    }
+
+    /// Presets that apply to the currently selected tab.
+    private var presetsForCurrentKind: [DownloadPreset] {
+        model.presets.filter { $0.mediaKind == draft.mediaKind }
+    }
+
+    /// The preset whose options exactly match the current configuration, if any.
+    private var activePreset: DownloadPreset? {
+        presetsForCurrentKind.first { $0.options == draft.options }
+    }
+
+    private var presetButtonTitle: String {
+        if let activePreset {
+            return "\(activePreset.displayEmoji) \(activePreset.name)"
+        }
+        return "Custom settings"
+    }
+
+    private var presetsBar: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 10) {
+                Menu {
+                    if presetsForCurrentKind.isEmpty {
+                        Text("No \(draft.mediaKind.title.lowercased()) presets yet")
+                    } else {
+                        ForEach(presetsForCurrentKind) { preset in
+                            Button {
+                                applyPreset(preset)
+                            } label: {
+                                let marker = preset.id == activePreset?.id ? "  ✓" : ""
+                                Text("\(preset.displayEmoji)  \(preset.name)\(marker)")
+                            }
+                        }
+                    }
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "slider.horizontal.3")
+                        Text(presetButtonTitle)
+                            .lineLimit(1)
+                    }
+                    .fixedSize(horizontal: true, vertical: false)
+                }
+                .menuStyle(.button)
+                .fixedSize()
+                .accessibilityIdentifier("presetsMenu")
+
+                Spacer()
+            }
+
+            Text("Presets fill in the format options below — you can still tweak anything.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
     }
 
     @ViewBuilder

@@ -3,7 +3,6 @@ import SwiftUI
 
 struct ActivityView: View {
     @Environment(PullDownModel.self) private var model
-    @State private var showsLog = false
     @State private var confirmsClearHistory = false
 
     var body: some View {
@@ -40,20 +39,28 @@ struct ActivityView: View {
                 }
                 .listStyle(.inset)
                 .scrollContentBackground(.hidden)
+                .safeAreaInset(edge: .top, spacing: 0) {
+                    if model.history.isEmpty == false {
+                        HStack {
+                            Spacer()
+                            Button {
+                                confirmsClearHistory = true
+                            } label: {
+                                Label("Clear history", systemImage: "trash")
+                            }
+                            .buttonStyle(.borderless)
+                            .controlSize(.small)
+                            .help("Clear download history")
+                            .accessibilityLabel("Clear download history")
+                        }
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 6)
+                        .background(.bar)
+                    }
+                }
             }
         }
         .navigationTitle("Activity")
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                Button("Clear History") { confirmsClearHistory = true }
-                    .disabled(model.history.isEmpty)
-                Button("Show Log") { showsLog = true }
-                    .disabled(model.logText.isEmpty)
-            }
-        }
-        .sheet(isPresented: $showsLog) {
-            DownloadLogView(logText: model.logText)
-        }
         .confirmationDialog(
             "Clear download history?",
             isPresented: $confirmsClearHistory
@@ -131,6 +138,11 @@ private struct DownloadHistoryRow: View {
                         .font(.caption)
                         .foregroundStyle(.red)
                         .lineLimit(1)
+                } else if let noteMessage = item.noteMessage {
+                    Text(noteMessage)
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                        .lineLimit(1)
                 } else {
                     Text(item.outputPath ?? item.request.destination.path)
                         .font(.caption)
@@ -199,11 +211,17 @@ struct DownloadJobRow: View {
             }
 
             if job.phase == .downloading {
-                ProgressView(value: job.progress)
+                ProgressView(value: job.overallProgress)
                     .accessibilityLabel("Download progress")
-                    .accessibilityValue(job.progress.formatted(.percent.precision(.fractionLength(0))))
+                    .accessibilityValue(job.overallProgress.formatted(.percent.precision(.fractionLength(0))))
                 HStack {
-                    if let speed = job.speed { Text(speed) }
+                    if let count = job.playlistCount, let index = job.playlistIndex {
+                        Text("Item \(index) of \(count)")
+                        Text("·")
+                        Text(job.progress.formatted(.percent.precision(.fractionLength(0))))
+                    } else if let speed = job.speed {
+                        Text(speed)
+                    }
                     Spacer()
                     if let eta = job.eta { Text("ETA \(eta)") }
                 }
@@ -222,6 +240,10 @@ struct DownloadJobRow: View {
                 Text(message)
                     .font(.caption)
                     .foregroundStyle(.red)
+            } else if case .completed = job.phase, let summary = job.completionSummary {
+                Text(summary)
+                    .font(.caption)
+                    .foregroundStyle(.orange)
             } else if let outputPath = job.outputPath {
                 Text(outputPath)
                     .font(.caption)
@@ -259,32 +281,5 @@ struct DownloadJobRow: View {
         case .queued: .secondary
         case .downloading, .processing: .accentColor
         }
-    }
-}
-
-private struct DownloadLogView: View {
-    @Environment(\.dismiss) private var dismiss
-    let logText: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack {
-                Text("yt-dlp Log")
-                    .font(.title2.weight(.semibold))
-                Spacer()
-                Button("Done") { dismiss() }
-                    .keyboardShortcut(.cancelAction)
-            }
-            ScrollView([.horizontal, .vertical]) {
-                Text(logText)
-                    .font(.system(.caption, design: .monospaced))
-                    .textSelection(.enabled)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .padding(12)
-            .background(Color(nsColor: .textBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
-        }
-        .padding(20)
-        .frame(minWidth: 680, minHeight: 420)
     }
 }

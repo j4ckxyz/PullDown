@@ -64,6 +64,23 @@ struct YTDLPCommandBuilderTests {
         #expect(command.arguments.contains("--no-playlist") == false)
     }
 
+    @Test func playlistDownloadsSkipUnavailableVideos() {
+        var options = DownloadOptions()
+        options.downloadPlaylist = true
+        let playlistURL = URL(string: "https://www.youtube.com/playlist?list=example")!
+        let request = DownloadRequest(urls: [playlistURL], kind: .video, destination: destination, options: options)
+        let command = YTDLPCommandBuilder.makeCommand(executable: executable, request: request, ffmpegExecutable: nil)
+
+        #expect(command.arguments.contains("--ignore-errors"))
+    }
+
+    @Test func singleVideoDownloadsDoNotIgnoreErrors() {
+        let request = DownloadRequest(urls: [videoURL], kind: .video, destination: destination, options: DownloadOptions())
+        let command = YTDLPCommandBuilder.makeCommand(executable: executable, request: request, ffmpegExecutable: nil)
+
+        #expect(command.arguments.contains("--ignore-errors") == false)
+    }
+
     private func value(after flag: String, in arguments: [String]) -> String? {
         guard let index = arguments.firstIndex(of: flag), arguments.indices.contains(index + 1) else { return nil }
         return arguments[index + 1]

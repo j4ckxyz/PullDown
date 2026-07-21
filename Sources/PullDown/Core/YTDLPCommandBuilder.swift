@@ -16,6 +16,9 @@ enum YTDLPCommandBuilder {
             "--concurrent-fragments", String(request.options.concurrentFragments),
         ]
 
+        let isPlaylistDownload = request.options.downloadPlaylist
+            || (request.options.playlistItems?.isEmpty == false)
+
         if let playlistItems = request.options.playlistItems, playlistItems.isEmpty == false {
             arguments.append(contentsOf: [
                 "--yes-playlist",
@@ -23,6 +26,12 @@ enum YTDLPCommandBuilder {
             ])
         } else {
             arguments.append(request.options.downloadPlaylist ? "--yes-playlist" : "--no-playlist")
+        }
+
+        // In a playlist a single private or unavailable video should not abort
+        // the whole batch — skip it and keep going.
+        if isPlaylistDownload {
+            arguments.append("--ignore-errors")
         }
 
         if let ffmpegExecutable {

@@ -17,7 +17,16 @@ extension Notification.Name {
 }
 
 struct PullDownCommands: Commands {
+    @ObservedObject private var updater = UpdaterManager.shared
+
     var body: some Commands {
+        CommandGroup(after: .appInfo) {
+            Button("Check for Updates…") {
+                updater.checkForUpdates()
+            }
+            .disabled(!updater.canCheckForUpdates)
+        }
+
         CommandMenu("Navigate") {
             Button("New Download") {
                 NotificationCenter.default.post(name: .showDownloadSection, object: nil)

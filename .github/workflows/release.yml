@@ -13,20 +13,63 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  validate:
+    name: Validate version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Validate version files
+        run: Scripts/validate-version.sh
+
+      - name: Require a new, increasing release version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          VERSION=$(tr -d '[:space:]' < VERSION)
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "GitHub Release v$VERSION already exists. Bump VERSION before merging to main." >&2
+            exit 1
+          fi
+
+          LATEST=$(gh release list --limit 100 --json tagName --jq '[.[].tagName | select(test("^v[0-9]+\\.[0-9]+\\.[0-9]+$"))][0] // ""')
+          python3 - "$VERSION" "$LATEST" <<'PY'
+          import sys
+
+          proposed = tuple(map(int, sys.argv[1].split(".")))
+          latest_tag = sys.argv[2]
+          if latest_tag:
+              latest = tuple(map(int, latest_tag.removeprefix("v").split(".")))
+              if proposed <= latest:
+                  raise SystemExit(f"VERSION {sys.argv[1]} must be greater than {latest_tag}")
+          PY
+
   build:
     name: Build ${{ matrix.label }}
+    needs: validate
     strategy:
       fail-fast: false
       matrix:
         include:
           - label: Apple Silicon
             runner: macos-26
-            architecture: arm64
+            artifact_id: arm64
+            architectures: arm64
+            only_active_arch: YES
             archive: PullDown-Apple-Silicon.zip
           - label: Intel
             runner: macos-26-intel
-            architecture: x86_64
+            artifact_id: x86_64
+            architectures: x86_64
+            only_active_arch: YES
             archive: PullDown-Intel.zip
+          - label: Universal updater
+            runner: macos-26
+            artifact_id: universal
+            architectures: arm64 x86_64
+            only_active_arch: NO
+            archive: PullDown-Universal.zip
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v6
@@ -36,15 +79,17 @@ jobs:
 
       - name: Build PullDown
         run: |
+          VERSION=$(tr -d '[:space:]' < VERSION)
           xcodebuild \
             -project PullDown.xcodeproj \
             -scheme PullDown \
             -configuration Release \
             -destination 'generic/platform=macOS' \
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
-            ARCHS=${{ matrix.architecture }} \
-            ONLY_ACTIVE_ARCH=YES \
+            ARCHS="${{ matrix.architectures }}" \
+            ONLY_ACTIVE_ARCH=${{ matrix.only_active_arch }} \
             CODE_SIGNING_ALLOWED=NO \
+            MARKETING_VERSION="$VERSION" \
             CURRENT_PROJECT_VERSION=${{ github.run_number }} \
             build
 
@@ -55,10 +100,40 @@ jobs:
           codesign --verify --deep --strict "$APP"
           ditto -c -k --sequesterRsrc --keepParent "$APP" "${{ matrix.archive }}"
 
+      - name: Generate signed appcast
+        if: matrix.archive == 'PullDown-Universal.zip'
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          if [ -z "$SPARKLE_PRIVATE_KEY" ]; then
+            echo "The SPARKLE_PRIVATE_KEY repository secret is required." >&2
+            exit 1
+          fi
+
+          VERSION=$(tr -d '[:space:]' < VERSION)
+          APPCAST_DIR="$RUNNER_TEMP/appcast"
+          mkdir -p "$APPCAST_DIR"
+          cp "${{ matrix.archive }}" "$APPCAST_DIR/"
+          TOOL="$RUNNER_TEMP/DerivedData/SourcePackages/artifacts/sparkle/Sparkle/bin/generate_appcast"
+          printf '%s' "$SPARKLE_PRIVATE_KEY" | "$TOOL" \
+            --ed-key-file - \
+            --download-url-prefix "https://github.com/${{ github.repository }}/releases/download/v$VERSION/" \
+            --link "https://github.com/${{ github.repository }}" \
+            --maximum-versions 1 \
+            "$APPCAST_DIR"
+          cp "$APPCAST_DIR/appcast.xml" appcast.xml
+
       - uses: actions/upload-artifact@v7
         with:
-          name: PullDown-${{ matrix.architecture }}
+          name: PullDown-${{ matrix.artifact_id }}
           path: ${{ matrix.archive }}
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v7
+        if: matrix.archive == 'PullDown-Universal.zip'
+        with:
+          name: PullDown-appcast
+          path: appcast.xml
           if-no-files-found: error
 
   release:
@@ -66,6 +141,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+
       - uses: actions/download-artifact@v8
         with:
           pattern: PullDown-*
@@ -79,13 +156,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: build-${{ github.run_number }}
         run: |
-          if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" release/* --clobber
-          else
-            gh release create "$TAG" release/* \
-              --target "${{ github.sha }}" \
-              --title "PullDown build ${{ github.run_number }}" \
-              --notes "Native macOS 15+ builds for Apple Silicon and 64-bit Intel Macs. These builds are ad-hoc signed and are not notarised."
-          fi
+          VERSION=$(tr -d '[:space:]' < VERSION)
+          gh release create "v$VERSION" release/* \
+            --target "${{ github.sha }}" \
+            --title "PullDown $VERSION" \
+            --notes "Native macOS 15+ builds for Apple Silicon and 64-bit Intel Macs. PullDown $VERSION also enables signed in-app updates through GitHub Releases. These builds are ad-hoc signed and are not notarised."
